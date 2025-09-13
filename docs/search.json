@@ -1,0 +1,213 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Benvenuti",
+    "section": "",
+    "text": "Benvenuti nel Molecular Tumor Board — Simulation Handbook, un corso/libro interattivo pensato per esercitarsi con workflow, interpretazione e comunicazione dei risultati in ambito MTB.\nIl focus è su tre aree:\n\nGlioma (GBM, IDH-wildtype) — re-resezione e trial EGFR/RTK.\n\nOvaio (HGSOC) — HRR/BRCA, HRD e uso dei PARP in prima/seconda linea.\n\nMammella — due esempi: HR+/HER2− con PIK3CA e TNBC con BRCA1.\n\n\nI dataset sono fittizi a scopo didattico. Gli script mostrano come leggere tabelle di varianti, visualizzarle con gt, e strutturare il ragionamento secondo AMP/ASCO/CAP ed ESCAT.\n\n\n\n\n\n\n\nNota\n\n\n\nTarget: specializzandi, biologi molecolari, bioinformatici e clinici interessati a MTB.\nPrerequisiti minimi: conoscenze di base di NGS, varianti somatiche e RNA-seq.\n\n\n\n\n\nNaviga i capitoli dal menu laterale o dalla Table of Contents.\n\nOgni capitolo adotta una struttura coerente: Obiettivi → Dati/Metodi → Analisi → Output/Report → Riferimenti.\n\nBox informativi segnalano Suggerimenti pratici, Pitfall comuni e Checklist operative.\n\n\n\n\nI capitoli principali includono:\n\nAvvio: panoramica del setup e flusso di lavoro base.\n\nFramework: principi, standard e raccomandazioni per MTB.\n\nCasi clinici: Glioma, Ovaio, Breast.\n\nTemplates: modelli di report, checklist e tabelle riutilizzabili.\n\nFusion: moduli dedicati all’analisi di fusioni geniche da RNA-seq.\nUse of LLM for clinical interpretation\n\n\nNota: la struttura dei capitoli è stata resa omogenea per facilitare studio e consultazione."
+  },
+  {
+    "objectID": "index.html#come-usare-questo-corso",
+    "href": "index.html#come-usare-questo-corso",
+    "title": "Benvenuti",
+    "section": "",
+    "text": "Naviga i capitoli dal menu laterale o dalla Table of Contents.\n\nOgni capitolo adotta una struttura coerente: Obiettivi → Dati/Metodi → Analisi → Output/Report → Riferimenti.\n\nBox informativi segnalano Suggerimenti pratici, Pitfall comuni e Checklist operative."
+  },
+  {
+    "objectID": "index.html#struttura-del-libro",
+    "href": "index.html#struttura-del-libro",
+    "title": "Benvenuti",
+    "section": "",
+    "text": "I capitoli principali includono:\n\nAvvio: panoramica del setup e flusso di lavoro base.\n\nFramework: principi, standard e raccomandazioni per MTB.\n\nCasi clinici: Glioma, Ovaio, Breast.\n\nTemplates: modelli di report, checklist e tabelle riutilizzabili.\n\nFusion: moduli dedicati all’analisi di fusioni geniche da RNA-seq.\nUse of LLM for clinical interpretation\n\n\nNota: la struttura dei capitoli è stata resa omogenea per facilitare studio e consultazione."
+  },
+  {
+    "objectID": "01_avvio.html",
+    "href": "01_avvio.html",
+    "title": "Molecular Tumor Board — Riassunto",
+    "section": "",
+    "text": "Introduzione\nI Molecular Tumor Boards (MTB) sono strumenti chiave della medicina di precisione.\nPermettono di tradurre i risultati del profilo molecolare (NGS e altri test) in raccomandazioni cliniche personalizzate.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Molecular Tumor Board — Riassunto</span>"
+    ]
+  },
+  {
+    "objectID": "01_avvio.html#requisiti",
+    "href": "01_avvio.html#requisiti",
+    "title": "Molecular Tumor Board — Riassunto",
+    "section": "Requisiti",
+    "text": "Requisiti\n\nR ≥ 4.3 (o Python, ma gli esempi usano R)\nQuarto CLI (verifica con quarto check)\nPacchetti R: tidyverse, readr, dplyr, gt, gtsummary",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Molecular Tumor Board — Riassunto</span>"
+    ]
+  },
+  {
+    "objectID": "02_framework.html",
+    "href": "02_framework.html",
+    "title": "3  Framework di decisione (AMP/ASCO/CAP & ESCAT)",
+    "section": "",
+    "text": "Questo capitolo riassume un framework pragmatico per passare dai risultati NGS alle decisioni cliniche.\n\nQualità e contesto del dato\n\nCopertura, purezza, coerenza istologica, metodo (tumor-only vs matched).\n\nTiering (AMP/ASCO/CAP): Tier I–IV per varianti, amplificazioni, fusioni.\nActionability clinica (ESCAT): Livelli I–V in base alla forza dell’evidenza.\nTrade-off: beneficio atteso, tossicità, logistica, preferenze del paziente.\nDocumentazione: raccomandazione primaria, alternative, trial, follow-up.\n\n\n\n\n\n\n\nNota\n\n\n\nAleatoric vs Epistemic — Dichiarare l’incertezza intrinseca e quella dovuta a limiti del modello o del dato (es. tumor-only).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Framework di decisione (AMP/ASCO/CAP & ESCAT)</span>"
+    ]
+  },
+  {
+    "objectID": "03_glioma.html",
+    "href": "03_glioma.html",
+    "title": "4  Glioma (GBM, IDH-wildtype) — Caso MTB",
+    "section": "",
+    "text": "library(readr); library(dplyr); library(gt)\nsom &lt;- read_csv(\"data/gbm_variants_somatic.csv\")\ngerm &lt;- read_csv(\"data/gbm_variants_germline.csv\")\n\n\n4.0.1 Sintesi clinica\n```{{=include}} templates/clinical_gbm.md\n\n\n4.0.2 Varianti somatiche\n\ngt(som) |&gt; tab_caption(\"GBM-01 — Somatic variants (tiering AMP/ASCO/CAP, ESCAT)\")\n\n\n\n\n\nGBM-01 — Somatic variants (tiering AMP/ASCO/CAP, ESCAT)\n\n\ngene\nvariant_cDNA\nvariant_protein\neffect\nvaf\ndepth\ncopy_number\ntier_amp_ascocap\nescat\nevidence_summary\n\n\n\n\nEGFR\nEGFRvIII (ex2-7 del)\np.Glu6_Ala273del\nOncogenic activation\n0.21\n450\n12\nTier IA (biomarker)\nII-B\nCommon GBM driver; investigational EGFRvIII-directed trials.\n\n\nEGFR\namplicon\n—\nAmplification\nNA\nNA\n12\nTier IA (biomarker)\nII-B\nHigh-level amplification; supports EGFR-targeted trial eligibility.\n\n\nTERT\nc.-124C&gt;T (C228T)\npromoter\nPromoter activation\n0.28\n600\nNA\nTier IIIC\nNot ranked\nPrognostic; not directly actionable.\n\n\nPTEN\nc.389G&gt;A\np.R130Q\nLoss-of-function\n0.34\n520\nloss\nTier IIC\nIII\nPI3K/AKT pathway activation; no approved targeted therapy in GBM.\n\n\nCDKN2A/B\nhomozygous deletion\n—\nLoss-of-function\nNA\nNA\n0 copies\nTier IIIC\nIII\nCell-cycle deregulation; may inform CDK pathway trial eligibility.\n\n\nNF1\nc.2033C&gt;A\np.S678*\nTruncating\n0.12\n480\nNA\nTier IIIC\nIII\nRAS/MAPK activation; occasional MEK inhibitor trials.\n\n\nPDGFRA\ngain\n—\nCopy number gain\nNA\nNA\n4\nTier IIIC\nIII\nMay expand RTK pathway trial options.\n\n\n\n\n\n\n\n\n\n4.0.3 Germinale (ricerca)\n\ngt(germ) |&gt; tab_caption(\"GBM-01 — Variant-like segnali germinali (non validati, da confermare)\")\n\n\n\n\n\nGBM-01 — Variant-like segnali germinali (non validati, da confermare)\n\n\ngene\nvariant_cDNA\nvariant_protein\nclassification\nreportable\nnote\n\n\n\n\nCHEK2\nc.470T&gt;C\np.I157T\nVUS (research-only)\nNo\nDetected on tumor-only; do not return clinically without matched normal.\n\n\nDPYD\nnone\n—\nNo pathogenic variants\nN/A\nNo fluoropyrimidine toxicity alleles observed.\n\n\n\n\n\n\n\n\n\n\n\n\n\nAvviso\n\n\n\nCaveat tumor-only — eventuali VUS non vanno riportati clinicamente; serve conferma su sangue/saliva in caso di sospetto germinale.\n\n\n\n\n4.0.4 Discussione\n\nRe-resezione con carmustina wafer vs alternative sistemiche.\nTrial EGFR/RTK per EGFR amp + vIII; PI3K/AKT meno promettente (PTEN LOF).\nIO: CPS ~10, MSS/TMB-low — utility limitata, considerare solo in trial.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Glioma (GBM, IDH-wildtype) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html",
+    "href": "04_ovaio.html",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "",
+    "text": "library(readr); library(dplyr); library(gt)\nsom &lt;- read_csv(\"data/ovary_variants_somatic.csv\")\ngerm &lt;- read_csv(\"data/ovary_variants_germline.csv\")\n\n\n5.0.1 Sintesi clinica\n```{{=include}} templates/clinical_ovary.md\n\n\n5.0.2 Varianti somatiche\n\ngt(som) |&gt; tab_caption(\"HGSOC — Varianti somatiche\")\n\n\n\n\n\nHGSOC — Varianti somatiche\n\n\ngene\nvariant_cDNA\nvariant_protein\neffect\nvaf\ndepth\ncopy_number\ntier_amp_ascocap\nescat\nevidence_summary\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic (LOF)\n0.46\n520\nNA\nTier IA\nI-A\nPARP inhibitor sensitivity (frontline/maintenance) in HRD.\n\n\nTP53\nc.743G&gt;A\np.R248Q\nPathogenic\n0.62\n600\nNA\nTier I\nContextual\nFoundational HGSOC driver.\n\n\nCCNE1\namplification\n—\nAmplification\nNA\nNA\n7\nTier IIC\nIII\nMay impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.\n\n\n\n\n\n\n\n\n\n5.0.3 Germinale\n\ngt(germ) |&gt; tab_caption(\"HGSOC — Varianti germinali e implicazioni\")\n\n\n\n\n\nHGSOC — Varianti germinali e implicazioni\n\n\ngene\nvariant_cDNA\nvariant_protein\nclassification\nreportable\nnote\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic\nYes\nStrong indication for germline confirmation and cascade testing.\n\n\n\n\n\n\n\n\n\n\n\n\n\nConsiglio\n\n\n\nDecisione tipica — Mantenimento con PARP in presenza di HRD/BRCA1 patogena; pianificare counselling e testing dei familiari.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "05_breast.html",
+    "href": "05_breast.html",
+    "title": "6  Mammella — Casi MTB (HR+/HER2− e TNBC)",
+    "section": "",
+    "text": "library(readr); library(dplyr); library(gt)\nsom &lt;- read_csv(\"data/breast_variants_somatic.csv\")\ngerm &lt;- read_csv(\"data/breast_variants_germline.csv\")\n\n\n6.0.1 Sintesi clinica\n```{{=include}} templates/clinical_breast.md\n\n\n6.0.2 HR+/HER2− — Varianti di interesse\n\nsom %&gt;% filter(case==\"HRpos_HER2neg\") %&gt;% select(-case) %&gt;% \n  gt() |&gt; tab_caption(\"HR+/HER2− — Varianti somatiche\")\n\n\n\n\n\nHR+/HER2− — Varianti somatiche\n\n\ngene\nvariant_cDNA\nvariant_protein\neffect\nvaf\ndepth\ncopy_number\ntier_amp_ascocap\nescat\nevidence_summary\n\n\n\n\nPIK3CA\nc.3140A&gt;G\np.H1047R\nActivating\n0.31\n480\nNA\nTier IA\nI-A\nEnables PI3K inhibitor (alpelisib) with endocrine therapy.\n\n\nESR1\nc.1610A&gt;C\np.Y537S\nActivating\n0.12\n420\nNA\nTier IIA\nII\nResistance marker; SERD consideration.\n\n\n\n\n\n\n\n\n\n6.0.3 TNBC — Varianti di interesse\n\nsom %&gt;% filter(case==\"TNBC\") %&gt;% select(-case) %&gt;% \n  gt() |&gt; tab_caption(\"TNBC — Varianti somatiche\")\n\n\n\n\n\nTNBC — Varianti somatiche\n\n\ngene\nvariant_cDNA\nvariant_protein\neffect\nvaf\ndepth\ncopy_number\ntier_amp_ascocap\nescat\nevidence_summary\n\n\n\n\nBRCA1\nc.5266dupC\np.Gln1756Profs*74\nPathogenic (LOF)\n0.44\n500\nNA\nTier IA\nI-A\nPARP inhibitor eligibility in germline carriers.\n\n\n\n\n\n\n\n\n\n6.0.4 Germinale\n\ngt(germ) |&gt; tab_caption(\"Mammella — Varianti germinali\")\n\n\n\n\n\nMammella — Varianti germinali\n\n\ncase\ngene\nvariant_cDNA\nvariant_protein\nclassification\nreportable\nnote\n\n\n\n\nTNBC\nBRCA1\nc.5266dupC\np.Gln1756Profs*74\nPathogenic\nYes\nRecommend germline testing and genetic counseling.\n\n\nHRpos_HER2neg\n—\n—\n—\nNo pathogenic variants suspected\nN/A\nGermline per storia personale/familiare.\n\n\n\n\n\n\n\n\n\n\n\n\n\nNota\n\n\n\n\nPIK3CA p.H1047R → considerare alpelisib + ET in HR+/HER2−.\nBRCA1 patogena (TNBC) → PARP; invio a genetica medica.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Mammella — Casi MTB (HR+/HER2− e TNBC)</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html",
+    "href": "07_fusion.html",
+    "title": "7  RNAfusion",
+    "section": "",
+    "text": "8 Introduzione\nRNAfusion è una pipeline nf-core per l’analisi di fusioni di RNA-seq.\nFornisce un workflow standardizzato, riproducibile e facilmente estendibile, costruito con Nextflow e containerizzato tramite Docker/Singularity.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html#citations",
+    "href": "07_fusion.html#citations",
+    "title": "7  RNAfusion",
+    "section": "10.1 Citations",
+    "text": "10.1 Citations\nIf you use nf-core/rnafusion for your analysis, please cite it using the following doi: 10.5281/zenodo.3946477\nAn extensive list of references for the tools used by the pipeline can be found in the CITATIONS.md file.\nYou can cite the nf-core publication as follows:\n\nThe nf-core framework for community-curated bioinformatics pipelines.\nPhilip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.\nNat Biotechnol. 2020 Feb 13. doi: 10.1038/s41587-020-0439-x.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html#kallisto-fusions",
+    "href": "07_fusion.html#kallisto-fusions",
+    "title": "7  RNAfusion",
+    "section": "10.2 KALLISTO fusions",
+    "text": "10.2 KALLISTO fusions\nkallisto can now find reads which span potential fusion breakpoints. The quant mode adds a –fusion flag which identifies read pairs involved in fusions and writes output to fusion.txt, this file is then processed by pizzly for downstream analysis.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "08_Fusion2.html",
+    "href": "08_Fusion2.html",
+    "title": "8  SplitFusion — Introduzione e Guida Rapida",
+    "section": "",
+    "text": "Consiglio\n\n\n\nQuesta pagina reimpagina in Quarto il contenuto fornito, aggiungendo TOC, evidenziazione codice e callout. Tutti i percorsi/URL sono lasciati come nell’originale.\n\n\n\n9 Introduction\nGene fusion is a hallmark of cancer. Many gene fusions are effective therapeutic targets such as BCR-ABL in chronic myeloid leukemia and EML4-ALK in lung cancer. Accurate detection of gene fusion plays a pivotal role in precision medicine by matching the right drugs to the right patients.\nChallenges in the diagnosis of gene fusions include that there could be many and sometimes unknown fusion partners, low gene expression (e.g. ALK), non fusion-specific protein expression (e.g. ROS1), potential involvments of cryptic splice sites, low sequence diversity at genomic breakpoints and associated mapping difficulty, and poor sample (poor quality, limited amount and low tumor cellularity) in clinical specimens. The anchored multiplex PCR (AMP) is a clinically proven technology that addresses all these issues and has accelerated gene fusion discoveries and supported robust clinical diagnosis (zheng2014?).\nEqually important to a robust wet lab technology is a high-performing computational method for calling gene fusions. SplitFusion is fast by leveraging the chimeric split-read alignments of BWA-MEM (li2013?). SplitFusion is agnostic to known coding transcripts. SplitFusion is sensitive, specific, computationally efficient, and features highly desirable abilities in clinical reporting, including the capabilities to infer fusion transcript frame-ness and exon-boundary alignments; to calculate number of unique DNA/RNA fragment ligation sites; and the SplitFusion-Target mode allows for continuous evidence-based improvement in clinical reporting.\nSplitFusion can be used for RNA-seq data and the Anchored Multiplex PCR (AMP) data.\n\n\n10 How does SplitFusion work?\nThe analysis consists of the following computational steps:\n\nReference alignment and deduplication.\n\nCIGAR transformation.\n\nCandidate breakpoint calling.\n\nInitial breakpoint filtering.\n\nBreakpoint gene annotation, frame-ness, exon boundary, further filtering and target reporting.\n\nResult reporting and visualization.\n\n\n\n11 Dependencies\nWhen running SplitFusion, you can specify paths to the tools and genome files you already have. If not, here are the human genome data and tools for installation.\n\nhuman genome: https://data.broadinstitute.org/snowman/hg19/\nE.g. save large database files under /home/user1/database/:\ncd /home/user1/database\nwget https://data.broadinstitute.org/snowman/hg19/Homo_sapiens_assembly19.fasta\nsamtools: http://samtools.sourceforge.net\nE.g. install under /home/user1/tools/:\ncd /home/user1/tools\nwget -O samtools.tar.bz2 https://sourceforge.net/projects/samtools/files/latest/download\ntar -xvf samtools.tar.bz2\ncd samtools-1.10   # Nota: versione samtools-x.xx\nmkdir /home/user1/tools/samtools\n./configure --prefix=/home/user1/tools/samtools\nmake\nmake install\ncd ..\nbwa: https://sourceforge.net/projects/bio-bwa/files\ngit clone https://github.com/lh3/bwa.git\ncd bwa\nmake\ncd ..\nbedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html\nwget https://github.com/arq5x/bedtools2/releases/download/v2.29.1/bedtools-2.29.1.tar.gz\ntar -zxvf bedtools-2.29.1.tar.gz\ncd bedtools2\nmake\nperl: https://www.perl.org/get.html\nAnnotation tools\nSplitFusion by default uses snpEff but it also supports ANNOVAR.\n\nsnpEff (free). When you run it for the first time, it will automatically download the genome database (either hg19 or hg38) from the internet. To run with snpEff, specify your snpEff directory via: --annovar /home/user1/tools/snpEff\n\nsnpEff: https://pcingola.github.io/SnpEff/download/\n\nANNOVAR (free registration). To run with ANNOVAR use --AnnotationMethod annovar. Keep the ANNOVAR directory structure, e.g. if installed under /home/user1/tools:\n/home/user1/tools/annovar/annotate_variation.pl\n/home/user1/tools/annovar/table_annovar.pl\n/home/user1/tools/annovar/humandb/hg19_refGeneMrna.fa\n/home/user1/tools/annovar/humandb/hg19_refGene.txt\n\nANNOVAR: http://download.openbioinformatics.org/annovar_download_form.php\n\n\nR: https://www.r-project.org/\nInstall required R packages within R:\ninstall.packages(c(\"Rcpp\", \"data.table\", \"plyr\"))\nPython: https://www.python.org/downloads/\nInstall a Python module with pip:\npip install future\n\n\n\n12 Installation\n```bash cd /home/user1/tools/ git clone https://github.com/Zheng-NGS-Lab/SplitFusion.git",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>SplitFusion — Introduzione e Guida Rapida</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html",
+    "href": "09_LLM_clinical_local.html",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "",
+    "text": "10 Modulo 1 — Fondamenti",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#cosè-escat",
+    "href": "09_LLM_clinical_local.html#cosè-escat",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "10.1 Cos’è ESCAT",
+    "text": "10.1 Cos’è ESCAT\n\nESCAT (ESMO Scale for Clinical Actionability of molecular Targets) classifica i biomarcori secondo il livello di azionabilità clinica.\nLivello I (IA/IB/IC): evidenza clinica forte e farmaco approvato in indicazione (standard of care) nel tumore specifico.\n\n\n10.1.1 Esempi comuni (non esaustivi)\n\nBRCA1/2 loss-of-function → sensibilità ai PARP-inibitori (es. carcinoma ovarico, mammario, prostatico, pancreatico in indicazioni selezionate).\nMSI-H/dMMR → immunoterapia.\nNTRK fusions → TRK-inibitori.\n\n\n\n\n\n\n\nConsiglio\n\n\n\nSuggerimento: il livello ESCAT dipende dal contesto tumorale. La stessa alterazione può avere livello diverso in tumori differenti.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#estrarre-e-normalizzare-il-referto-ngs",
+    "href": "09_LLM_clinical_local.html#estrarre-e-normalizzare-il-referto-ngs",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "11.1 Estrarre e normalizzare il referto NGS",
+    "text": "11.1 Estrarre e normalizzare il referto NGS\n\nRaccogli campi minimi utili: Gene | Variante cDNA | Variante proteina | Effetto | VAF | Copy number | Tumore.\nPulisci spazi e simboli incoerenti; usa una tabella semplice o CSV.\nSpecifica sempre istologia/setting (es. HGSOC, first-line, post-platinum), perché influisce sull’interpretazione.\n\n\n11.1.1 Esempio di tabella (input)\n\n\n\n\n\n\n\n\n\n\n\n\nGene\nVariante cDNA\nVariante proteina\nEffetto\nVAF\nCopyNumber\nTumore\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nFrameshift (LOF)\n0.46\nNA\nOvarico HGS\n\n\nTP53\nc.743G&gt;A\np.R248Q\nMissenso patogena\n0.62\nNA\nOvarico HGS\n\n\nCCNE1\n—\n—\nAmplificazione (CN≈7)\nNA\n7\nOvarico HGS",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#template-base-classificazione-escat",
+    "href": "09_LLM_clinical_local.html#template-base-classificazione-escat",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "12.1 Template base (classificazione ESCAT)",
+    "text": "12.1 Template base (classificazione ESCAT)\nAgisci come specialista in oncologia molecolare.\nInput: tabella con varianti (Gene, cDNA, Proteina, Effetto, Tumore/istologia, setting terapeutico se noto).\nCompito:\n1) Identifica quali varianti sono biomarcatori **ESCAT livello I** (IA/IB/IC) nel **tumore indicato**.\n2) Specifica sottolivello (IA/IB/IC), **terapia associata** e **indicazione clinica**.\n3) Riporta evidenza sintetica (trial/guideline chiave) e limita a 1–2 riferimenti.\n4) Fornisci una tabella finale: Gene | Variante | ESCAT | Terapia standard | Contesto tumore | Nota evidence.\n5) Evidenzia le varianti **non** livello I come \"non azionabili/contestuali\" (breve nota).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#template-avanzato-output-strutturato-controllo-qualità",
+    "href": "09_LLM_clinical_local.html#template-avanzato-output-strutturato-controllo-qualità",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "12.2 Template avanzato (output strutturato + controllo qualità)",
+    "text": "12.2 Template avanzato (output strutturato + controllo qualità)\nAgisci come revisore di referti NGS per un Molecular Tumor Board.\nCompito:\nA) Normalizza i nomi delle varianti in HGVS (cDNA/proteico) se necessario.\nB) Classifica ogni variante con: ESCAT (I–IV/NA), livello (IA/IB/IC), tipo biomarcatore (predictive/prognostic/diagnostic), e stato (somatico/germinale se deducibile).\nC) Elenca la terapia standard associata se ESCAT I; altrimenti indica \"non standard\".\nD) Aggiungi un flag **Contesto-dipendente** quando l'evidenza dipende da HRD, MSI, fusioni ecc.\nE) Output in tabella markdown + checklist di verifica (tumore, setting, HRD, MSI, TMB, linee guida consultate).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#template-per-ricontrollo-fonti-facoltativo",
+    "href": "09_LLM_clinical_local.html#template-per-ricontrollo-fonti-facoltativo",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "12.3 Template per ricontrollo fonti (facoltativo)",
+    "text": "12.3 Template per ricontrollo fonti (facoltativo)\nElenca per ciascun biomarcatore classificato come ESCAT I:\n- Linea guida/consenso più recente (ESMO/ASCO/AIOM) con anno.\n- 1 trial pivotal con outcome principale (PFS/OS).\n- Note di sicurezza di classe del farmaco.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#esercizio-guidato",
+    "href": "09_LLM_clinical_local.html#esercizio-guidato",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "13.1 Esercizio guidato",
+    "text": "13.1 Esercizio guidato\nInput: usa la tabella di esempio del Modulo 2.\nPrompt suggerito: applica il Template avanzato.\nOutput atteso (esempio illustrativo)\n\n\n\n\n\n\n\n\n\n\n\nGene\nVariante\nESCAT\nTerapia standard\nContesto tumore\nNota evidence\n\n\n\n\nBRCA1\nc.68_69delAG (p.Glu23Valfs*17)\nI-A\nPARP-inibitori (maintenance post-response)**\nOvarico HGS\nTrial pivotal 1L; linee guida europee confermano\n\n\nTP53\np.R248Q\nContextual\n—\nOvarico HGS\nDriver ubiquo; non target standard\n\n\nCCNE1\nAmplificazione (CN≈7)\nII–III (non standard)\n—\nOvarico HGS\nAssocia resistenza al platino; target sperimentali\n\n\n\n\nNota: La classificazione è a scopo didattico e dipende dall’indicazione regolatoria vigente e dal setting.\n\n\n13.1.1 Checklist di validazione\n\nTumore/istologia e stadio corretti\nSetting terapeutico (1L/maintenance/recidiva) specificato\nHRD/MSI/TMB valutati quando rilevante\nLinee guida aggiornate consultate\nOutput coerente con MDT locale",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#snippet-richiesta-tabella-finale-compatta",
+    "href": "09_LLM_clinical_local.html#snippet-richiesta-tabella-finale-compatta",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "14.1 Snippet: richiesta tabella finale compatta",
+    "text": "14.1 Snippet: richiesta tabella finale compatta\nRestituisci solo una tabella con le colonne: Gene | Variante | ESCAT (IA/IB/IC/NA) | Terapia standard | Contesto | Fonte (sigla+anno).\nLimita le fonti a 1–2 voci sintetiche.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "09_LLM_clinical_local.html#snippet-evidenze-e-rischi",
+    "href": "09_LLM_clinical_local.html#snippet-evidenze-e-rischi",
+    "title": "9  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "14.2 Snippet: evidenze e rischi",
+    "text": "14.2 Snippet: evidenze e rischi\nPer ciascun biomarcatore ESCAT I:\n- Riassumi outcome (PFS/OS) del trial chiave (una riga).\n- Elenca principali tossicità di classe (una riga), senza consigli clinici.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  }
+]
