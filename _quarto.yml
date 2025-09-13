@@ -1,10 +1,10 @@
 project:
   type: book
-  output-dir: _book
+  output-dir: docs
 
 book:
   title: "Molecular Tumor Board — Simulation Handbook"
-  author: "Prof. XXXX"
+  author: "Prof. Ettore Domenico CAPOLUONGO / Dr. Maurizio Polano"
   date: 2025-08-30
   chapters:
     - index.qmd

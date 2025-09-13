@@ -12,7 +12,7 @@ Benvenuti nel **Molecular Tumor Board — Simulation Handbook**, un corso/libro 
 
 Il focus è su tre aree:
 
--   **Glioma (GBM, IDH-wildtype)** — re-resezione e scelta di carmustina wafer, trial EGFR/RTK.\
+-   **Glioma (GBM, IDH-wildtype)** — re-resezione e trial EGFR/RTK.\
 -   **Ovaio (HGSOC)** — HRR/BRCA, HRD e uso dei PARP in prima/seconda linea.\
 -   **Mammella** — due esempi: HR+/HER2− con *PIK3CA* e TNBC con *BRCA1*.
 
@@ -34,10 +34,15 @@ Il focus è su tre aree:
 I capitoli principali includono:
 
 -   **Avvio**: panoramica del setup e flusso di lavoro base.\
+
 -   **Framework**: principi, standard e raccomandazioni per MTB.\
+
 -   **Casi clinici**: *Glioma*, *Ovaio*, *Breast*.\
+
 -   **Templates**: modelli di report, checklist e tabelle riutilizzabili.\
+
 -   **Fusion**: moduli dedicati all’analisi di fusioni geniche da RNA-seq.
+
 -   Use of **LLM** for clinical interpretation
 
 > Nota: la struttura dei capitoli è stata resa omogenea per facilitare studio e consultazione.
