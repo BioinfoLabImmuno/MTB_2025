@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -230,7 +264,17 @@ Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, cos
 <picture> <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-rnafusion_logo_dark.png"> <img alt="nf-core/rnafusion" src="docs/images/nf-core-rnafusion_logo_light.png"> </picture>
 </h1>
 <p>Per installare ed eseguire la pipeline:</p>
-<p>```bash nextflow run nf-core/rnafusion -profile test,docker</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="at">-profile</span> test,docker</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/clipboard-1456521626.png" class="img-fluid"></p>
+<p>come usarlo è riportato nel seguente link:</p>
+<p><a href="https://nf-co.re/rnafusion/3.0.2/docs/usage/" class="uri">https://nf-co.re/rnafusion/3.0.2/docs/usage/</a></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion  <span class="dt">\ </span> <span class="at">--build_references</span> <span class="dt">\ </span> <span class="at">--cosmic_username</span> <span class="op">&lt;</span>EMAIL<span class="op">&gt;</span> --cosmic_passwd <span class="op">&lt;</span>PASSWORD<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--fusionreport</span> <span class="dt">\ </span> <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span><span class="st">'''</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>poi fai questo</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--all</span> <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> <span class="op">&lt;</span>SAMPLE_SHEET.CSV<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="citations" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="citations"><span class="header-section-number">10.1</span> Citations</h2>
 <p>If you use nf-core/rnafusion for your analysis, please cite it using the following doi: <a href="https://doi.org/10.5281/zenodo.3946477">10.5281/zenodo.3946477</a></p>
