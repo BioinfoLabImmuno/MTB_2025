@@ -8,7 +8,7 @@
 
 <meta name="author" content="Zheng NGS Lab (ri-formattato in Quarto)">
 
-<title>SplitFusion — Introduzione e Guida Rapida</title>
+<title>8&nbsp; SplitFusion — Introduzione e Guida Rapida – Molecular Tumor Board — Simulation Handbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,11 +59,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./09_LLM_clinical_local.html" rel="next">
+<link href="./07_fusion.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -72,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-09537c9ecba8558085948e1b802a414a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-854d42f42d0f6b455b86ad16a464e311.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,31 +109,117 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 
-<body>
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08_Fusion2.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Molecular Tumor Board — Simulation Handbook</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Ricerca"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_avvio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Molecular Tumor Board — Riassunto</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Framework di decisione (AMP/ASCO/CAP &amp; ESCAT)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_glioma.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Glioma (GBM, IDH-wildtype) — Caso MTB</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_ovaio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ovaio (HGSOC) — Caso MTB</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_breast.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mammella — Casi MTB (HR+/HER2− e TNBC)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07_fusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08_Fusion2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09_LLM_clinical_local.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">In questa pagina</h2>
+    <h2 id="toc-title">Indice</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#how-does-splitfusion-work" id="toc-how-does-splitfusion-work" class="nav-link" data-scroll-target="#how-does-splitfusion-work"><span class="header-section-number">2</span> How does SplitFusion work?</a></li>
-  <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies"><span class="header-section-number">3</span> Dependencies</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">4</span> Installation</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9</span> Introduction</a></li>
+  <li><a href="#how-does-splitfusion-work" id="toc-how-does-splitfusion-work" class="nav-link" data-scroll-target="#how-does-splitfusion-work"><span class="header-section-number">10</span> How does SplitFusion work?</a></li>
+  <li><a href="#dependencies" id="toc-dependencies" class="nav-link" data-scroll-target="#dependencies"><span class="header-section-number">11</span> Dependencies</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">12</span> Installation</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Altri Formati</h2><ul><li><a href="08_Fusion2.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">SplitFusion — Introduzione e Guida Rapida</h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></h1>
 </div>
 
 
@@ -166,15 +255,15 @@ Consiglio
 <p>Questa pagina reimpagina in <strong>Quarto</strong> il contenuto fornito, aggiungendo TOC, evidenziazione codice e callout. Tutti i percorsi/URL sono lasciati come nell’originale.</p>
 </div>
 </div>
-<section id="introduction" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="introduction" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Introduction</h1>
 <p>Gene fusion is a hallmark of cancer. Many gene fusions are effective therapeutic targets such as <strong>BCR-ABL</strong> in chronic myeloid leukemia and <strong>EML4-ALK</strong> in lung cancer. Accurate detection of gene fusion plays a pivotal role in precision medicine by matching the right drugs to the right patients.</p>
 <p>Challenges in the diagnosis of gene fusions include that there could be many and sometimes unknown fusion partners, low gene expression (e.g.&nbsp;<strong>ALK</strong>), non fusion-specific protein expression (e.g.&nbsp;<strong>ROS1</strong>), potential involvments of cryptic splice sites, low sequence diversity at genomic breakpoints and associated mapping difficulty, and poor sample (poor quality, limited amount and low tumor cellularity) in clinical specimens. The anchored multiplex PCR (<strong>AMP</strong>) is a clinically proven technology that addresses all these issues and has accelerated gene fusion discoveries and supported robust clinical diagnosis <span class="citation" data-cites="zheng2014">(<a href="#ref-zheng2014" role="doc-biblioref"><strong>zheng2014?</strong></a>)</span>.</p>
 <p>Equally important to a robust wet lab technology is a high-performing computational method for calling gene fusions. <strong>SplitFusion</strong> is fast by leveraging the chimeric split-read alignments of <strong>BWA-MEM</strong> <span class="citation" data-cites="li2013">(<a href="#ref-li2013" role="doc-biblioref"><strong>li2013?</strong></a>)</span>. <strong>SplitFusion</strong> is agnostic to known coding transcripts. <strong>SplitFusion</strong> is sensitive, specific, computationally efficient, and features highly desirable abilities in clinical reporting, including the capabilities to infer fusion transcript frame-ness and exon-boundary alignments; to calculate number of unique DNA/RNA fragment ligation sites; and the <strong>SplitFusion-Target</strong> mode allows for continuous evidence-based improvement in clinical reporting.</p>
 <p><strong>SplitFusion</strong> can be used for RNA-seq data and the <strong>Anchored Multiplex PCR (AMP)</strong> data.</p>
 </section>
-<section id="how-does-splitfusion-work" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> How does SplitFusion work?</h1>
+<section id="how-does-splitfusion-work" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> How does SplitFusion work?</h1>
 <p>The analysis consists of the following computational steps:</p>
 <ol type="1">
 <li>Reference alignment and deduplication.<br>
@@ -190,8 +279,8 @@ Consiglio
 <li>Result reporting and visualization.</li>
 </ol>
 </section>
-<section id="dependencies" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Dependencies</h1>
+<section id="dependencies" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Dependencies</h1>
 <p>When running SplitFusion, you can specify paths to the tools and genome files you already have. If not, here are the human genome data and tools for installation.</p>
 <ul>
 <li><p><strong>human genome</strong>: <a href="https://data.broadinstitute.org/snowman/hg19/" class="uri">https://data.broadinstitute.org/snowman/hg19/</a></p>
@@ -244,8 +333,8 @@ Consiglio
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install future</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 </ul>
 </section>
-<section id="installation" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Installation</h1>
+<section id="installation" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Installation</h1>
 <p>```bash cd /home/user1/tools/ git clone https://github.com/Zheng-NGS-Lab/SplitFusion.git</p>
 
 
@@ -669,6 +758,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./07_fusion.html" class="pagination-link" aria-label="RNAfusion">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./09_LLM_clinical_local.html" class="pagination-link" aria-label="Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
