@@ -74,7 +74,7 @@
     "href": "04_ovaio.html",
     "title": "5  Ovaio (HGSOC) — Caso MTB",
     "section": "",
-    "text": "library(readr); library(dplyr); library(gt)\nsom &lt;- read_csv(\"data/ovary_variants_somatic.csv\")\ngerm &lt;- read_csv(\"data/ovary_variants_germline.csv\")\n\n\n5.0.1 Sintesi clinica\n```{{=include}} templates/clinical_ovary.md\n\n\n5.0.2 Varianti somatiche\n\ngt(som) |&gt; tab_caption(\"HGSOC — Varianti somatiche\")\n\n\n\n\n\nHGSOC — Varianti somatiche\n\n\ngene\nvariant_cDNA\nvariant_protein\neffect\nvaf\ndepth\ncopy_number\ntier_amp_ascocap\nescat\nevidence_summary\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic (LOF)\n0.46\n520\nNA\nTier IA\nI-A\nPARP inhibitor sensitivity (frontline/maintenance) in HRD.\n\n\nTP53\nc.743G&gt;A\np.R248Q\nPathogenic\n0.62\n600\nNA\nTier I\nContextual\nFoundational HGSOC driver.\n\n\nCCNE1\namplification\n—\nAmplification\nNA\nNA\n7\nTier IIC\nIII\nMay impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.\n\n\n\n\n\n\n\n\n\n5.0.3 Germinale\n\ngt(germ) |&gt; tab_caption(\"HGSOC — Varianti germinali e implicazioni\")\n\n\n\n\n\nHGSOC — Varianti germinali e implicazioni\n\n\ngene\nvariant_cDNA\nvariant_protein\nclassification\nreportable\nnote\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic\nYes\nStrong indication for germline confirmation and cascade testing.\n\n\n\n\n\n\n\n\n\n\n\n\n\nConsiglio\n\n\n\nDecisione tipica — Mantenimento con PARP in presenza di HRD/BRCA1 patogena; pianificare counselling e testing dei familiari.",
+    "text": "5.0.1 Punti chiave (HGSOC)",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
     ]
@@ -217,6 +217,66 @@
     "text": "14.2 Snippet: evidenze e rischi\nPer ciascun biomarcatore ESCAT I:\n- Riassumi outcome (PFS/OS) del trial chiave (una riga).\n- Elenca principali tossicità di classe (una riga), senza consigli clinici.",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#varianti-somatiche",
+    "href": "04_ovaio.html#varianti-somatiche",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.1 Varianti somatiche",
+    "text": "5.1 Varianti somatiche\n\nsom_disp &lt;- som %&gt;%\n  rename(\n    Gene = gene, Variante = variant_cDNA, Proteina = variant_protein,\n    Classe = effect, ESCAT = escat, Tier = tier_amp_ascocap,\n    VAF = vaf, Copertura = depth\n  )\n\ngt(som_disp) |&gt;\n  tab_caption(\"HGSOC — Varianti somatiche\") |&gt;\n  fmt_number(columns = c(VAF), decimals = 3) |&gt;\n  tab_spanner(label = \"Qualità\", columns = c(VAF, Copertura)) |&gt;\n  tab_style(\n    style = cell_fill(color = \"#fff3cd\"),\n    locations = cells_body(rows = qc_low_vaf | qc_low_depth)\n  ) |&gt;\n  tab_style(\n    style = cell_fill(color = \"#d4edda\"),\n    locations = cells_body(rows = high_actionability | pathogenic_like)\n  ) |&gt;\n  tab_source_note(md(\"**QC**: giallo = VAF &lt;5% o copertura &lt;250× (interpretare con cautela).\"))\n\n\n\n\n\nHGSOC — Varianti somatiche\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGene\nVariante\nProteina\nClasse\n\nQualità\n\ncopy_number\nTier\nESCAT\nevidence_summary\nvariant\nprotein_change\nclassification\ntier_amp_asco_cap\nnotes\npathogenic_like\nhigh_actionability\nqc_low_vaf\nqc_low_depth\n\n\nVAF\nCopertura\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic (LOF)\n0.460\n520\nNA\nTier IA\nI-A\nPARP inhibitor sensitivity (frontline/maintenance) in HRD.\nNA\nNA\nNA\nNA\nNA\nFALSE\nTRUE\nFALSE\nFALSE\n\n\nTP53\nc.743G&gt;A\np.R248Q\nPathogenic\n0.620\n600\nNA\nTier I\nContextual\nFoundational HGSOC driver.\nNA\nNA\nNA\nNA\nNA\nFALSE\nFALSE\nFALSE\nFALSE\n\n\nCCNE1\namplification\n—\nAmplification\nNA\nNA\n7\nTier IIC\nIII\nMay impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.\nNA\nNA\nNA\nNA\nNA\nFALSE\nTRUE\nFALSE\nFALSE\n\n\n\nQC: giallo = VAF &lt;5% o copertura &lt;250× (interpretare con cautela).",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#varianti-germinali-e-implicazioni",
+    "href": "04_ovaio.html#varianti-germinali-e-implicazioni",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.2 Varianti germinali e implicazioni",
+    "text": "5.2 Varianti germinali e implicazioni\n\ngerm_disp &lt;- germ %&gt;%\n  rename(\n    Gene = gene, Variante = variant, Proteina = protein_change,\n    Classe = classification, Note = notes\n  )\n\ngt(germ_disp) |&gt;\n  tab_caption(\"HGSOC — Varianti germinali e implicazioni\") |&gt;\n  tab_style(\n    style = cell_fill(color = \"#fde2e2\"),\n    locations = cells_body(rows = needs_cascade)\n  ) |&gt;\n  tab_source_note(md(\"**Rosso** = varianti che richiedono conferma germinale e counselling/cascade testing.\"))\n\n\n\n\n\nHGSOC — Varianti germinali e implicazioni\n\n\nGene\nvariant_cDNA\nvariant_protein\nClasse\nreportable\nnote\nneeds_cascade\nVariante\nProteina\nescat\ntier_amp_asco_cap\nvaf\ndepth\nNote\n\n\n\n\nBRCA1\nc.68_69delAG\np.Glu23Valfs*17\nPathogenic\nYes\nStrong indication for germline confirmation and cascade testing.\nTRUE\nNA\nNA\nNA\nNA\nNA\nNA\nStrong indication for germline confirmation and cascade testing.\n\n\n\nRosso = varianti che richiedono conferma germinale e counselling/cascade testing.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#interpretazione-molecolare",
+    "href": "04_ovaio.html#interpretazione-molecolare",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.3 Interpretazione molecolare",
+    "text": "5.3 Interpretazione molecolare\n\nAMP/ASCO/CAP:\n\nTier I–II: clinicamente rilevanti → terapia o trial.\n\nTier III: incerto → monitorare.\n\nTier IV: benigno → nessuna azione.\n\nESCAT:\n\nI–II: evidenza robusta → terapia target.\n\nIII–IV: segnali preliminari → solo trial.\n\nV: solo preclinico.\n\nHRD / BRCA:\n\nBRCA1/2 patogena → PARP; richiede conferma germinale + counselling.\n\nVUS → nessuna azione, ri-interpretare periodicamente.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#raccomandazioni-mtb",
+    "href": "04_ovaio.html#raccomandazioni-mtb",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.4 Raccomandazioni MTB",
+    "text": "5.4 Raccomandazioni MTB\n\nConfermare germinale per varianti patogene/likely patogene in BRCA1/2.\n\nConsulenza genetica e cascade testing per i familiari di primo grado.\n\nTerapia: PARP inibitore in mantenimento se HRD/BRCA+.\n\nTrial clinici: arruolamento se disponibili (PARP + antiangiogenici/IO, altri target ESCAT ≥ III).\n\nFollow-up molecolare: ri-analisi NGS/VUS a 6–12 mesi o alla progressione.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#materiali-metodi",
+    "href": "04_ovaio.html#materiali-metodi",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.5 Materiali & Metodi",
+    "text": "5.5 Materiali & Metodi\n\nPiattaforma NGS: (specificare pannello e copertura media).\n\nQC campione: % cellulare tumorale, RNA DV200 se applicabile.\n\nPipeline bioinformatica: db usati (ClinVar, COSMIC, gnomAD).\n\nConferma ortogonale: Sanger/MLPA se necessario.\n\nInterpretazione: secondo linee guida AMP/ASCO/CAP e ESCAT.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
+    ]
+  },
+  {
+    "objectID": "04_ovaio.html#appendice",
+    "href": "04_ovaio.html#appendice",
+    "title": "5  Ovaio (HGSOC) — Caso MTB",
+    "section": "5.6 Appendice",
+    "text": "5.6 Appendice\n\n\n\n\n\n\n\n\n\nSituazione\nAzione consigliata\nEvidenza\nNote\n\n\n\n\nBRCA1/2 patogena (somatica)\nConferma su sangue/saliva\nForte\nAvviare counselling\n\n\nHRD positivo\nPARP inibitore in mantenimento\nForte\nSetting dipendente\n\n\nNessuna alterazione HRD\nStandard ± antiangiogenico\nModerata\nSecondo clinica\n\n\nVUS\nNessuna azione clinica\n-\nRi-interpretare",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ovaio (HGSOC) — Caso MTB</span>"
     ]
   }
 ]

@@ -3,27 +3,175 @@ title: "Ovaio (HGSOC) — Caso MTB"
 ---
 
 ```{r}
-library(readr); library(dplyr); library(gt)
-som <- read_csv("data/ovary_variants_somatic.csv")
+#| message: false
+#| warning: false
+library(readr); library(dplyr); library(gt); library(stringr); library(tidyr)# ---------- helpers robusti ----------
+standardize_cols <- function(df) {
+  # mappa: target -> possibili nomi nella pratica
+  mapping <- list(
+    gene                 = c("gene","Gene","Hugo_Symbol","Symbol"),
+    variant              = c("variant","Variant","cDNA","cdna_change","hgvsc","hgvsc_short","c_change","mutation","c_variant","c_hgvs"),
+    protein_change       = c("protein_change","Protein","hgvsp","hgvsp_short","p_change","aa_change","p_hgvs","protein"),
+    classification       = c("classification","class","pathogenicity","clin_sig","clinical_significance","significance"),
+    escat                = c("escat","ESCAT"),
+    tier_amp_asco_cap    = c("tier_amp_asco_cap","tier","tier_amp","amp_asco_cap_tier","amp_asco_cap"),
+    vaf                  = c("vaf","VAF","vaf_fraction","allele_fraction","variant_allele_frequency","AF"),
+    depth                = c("depth","coverage","dp","read_depth","DP"),
+    notes                = c("notes","note","comment","comments","interpretation","report_note")
+  )
+  # per ogni target, copia dalla prima cand. esistente o crea NA
+  for (tgt in names(mapping)) {
+    cands <- mapping[[tgt]]
+    hit <- cands[cands %in% names(df)]
+    if (length(hit) >= 1) {
+      df[[tgt]] <- df[[ hit[1] ]]
+    } else {
+      df[[tgt]] <- NA
+    }
+  }
+  df
+}
+
+safe_flag_cols_somatic <- function(df){
+  df %>% mutate(
+    pathogenic_like = if ("classification" %in% names(.))
+                        str_detect(tolower(coalesce(classification,"")), "patho|likely")
+                      else NA,
+    high_actionability = if ("escat" %in% names(.))
+                        str_detect(tolower(coalesce(escat,"")), "i|ii")
+                      else NA,
+    qc_low_vaf = if ("vaf" %in% names(.))
+                        ifelse(!is.na(suppressWarnings(as.numeric(vaf))) & as.numeric(vaf) < 0.05, TRUE, FALSE)
+                      else NA,
+    qc_low_depth = if ("depth" %in% names(.))
+                        ifelse(!is.na(suppressWarnings(as.numeric(depth))) & as.numeric(depth) < 250, TRUE, FALSE)
+                      else NA
+  )
+}
+
+safe_flag_cols_germline <- function(df){
+  df %>% mutate(
+    needs_cascade = if ("classification" %in% names(.))
+                      str_detect(tolower(coalesce(classification,"")), "patho|likely")
+                    else NA
+  )
+}
+# importa dati
+som  <- read_csv("data/ovary_variants_somatic.csv")
 germ <- read_csv("data/ovary_variants_germline.csv")
+
+# arricchisci con flag utili se colonne presenti
+som 
+germ <- germ %>%
+  mutate(
+    needs_cascade = str_detect(tolower(coalesce(classification,"")), "patho|likely")
+  )
+# normalizza nomi chiave
+som  <- standardize_cols(som)
+germ <- standardize_cols(germ)
+
+# aggiungi flag robusti
+som  <- safe_flag_cols_somatic(som)
+germ <- safe_flag_cols_germline(germ)
 ```
 
-### Sintesi clinica
+### Punti chiave (HGSOC)
 
-\`\`\`{{=include}} templates/clinical_ovary.md
+-   **Carcinoma sieroso ad alto grado**: tipicamente con difetti di ricombinazione omologa (**HRD-high**, **BRCA1/2**, **TP53**).\
+-   **Terapia**: PARP inibitori se **HRD+** o **BRCA patogena**; antiangiogenici in setting selezionati.\
+-   **Genetica**: varianti in **BRCA1/2** richiedono **conferma germinale** e **counselling genetico**.\
+-   **Framework**: interpretazione secondo **AMP/ASCO/CAP** (validità analitica/clinica) ed **ESCAT** (azionabilità clinica).
 
-### Varianti somatiche
+## Varianti somatiche
 
 ```{r}
-gt(som) |> tab_caption("HGSOC — Varianti somatiche")
+som_disp <- som %>%
+  rename(
+    Gene = gene, Variante = variant_cDNA, Proteina = variant_protein,
+    Classe = effect, ESCAT = escat, Tier = tier_amp_ascocap,
+    VAF = vaf, Copertura = depth
+  )
+
+gt(som_disp) |>
+  tab_caption("HGSOC — Varianti somatiche") |>
+  fmt_number(columns = c(VAF), decimals = 3) |>
+  tab_spanner(label = "Qualità", columns = c(VAF, Copertura)) |>
+  tab_style(
+    style = cell_fill(color = "#fff3cd"),
+    locations = cells_body(rows = qc_low_vaf | qc_low_depth)
+  ) |>
+  tab_style(
+    style = cell_fill(color = "#d4edda"),
+    locations = cells_body(rows = high_actionability | pathogenic_like)
+  ) |>
+  tab_source_note(md("**QC**: giallo = VAF <5% o copertura <250× (interpretare con cautela)."))
 ```
 
-### Germinale
+------------------------------------------------------------------------
+
+## Varianti germinali e implicazioni
 
 ```{r}
-gt(germ) |> tab_caption("HGSOC — Varianti germinali e implicazioni")
+germ_disp <- germ %>%
+  rename(
+    Gene = gene, Variante = variant, Proteina = protein_change,
+    Classe = classification, Note = notes
+  )
+
+gt(germ_disp) |>
+  tab_caption("HGSOC — Varianti germinali e implicazioni") |>
+  tab_style(
+    style = cell_fill(color = "#fde2e2"),
+    locations = cells_body(rows = needs_cascade)
+  ) |>
+  tab_source_note(md("**Rosso** = varianti che richiedono conferma germinale e counselling/cascade testing."))
 ```
 
-::: callout-tip
-**Decisione tipica** — Mantenimento con **PARP** in presenza di HRD/**BRCA1** patogena; pianificare **counselling** e **testing** dei familiari.
-:::
+------------------------------------------------------------------------
+
+## Interpretazione molecolare
+
+-   **AMP/ASCO/CAP**:
+    -   *Tier I–II*: clinicamente rilevanti → terapia o trial.\
+    -   *Tier III*: incerto → monitorare.\
+    -   *Tier IV*: benigno → nessuna azione.
+-   **ESCAT**:
+    -   *I–II*: evidenza robusta → terapia target.\
+    -   *III–IV*: segnali preliminari → solo trial.\
+    -   *V*: solo preclinico.
+-   **HRD / BRCA**:
+    -   BRCA1/2 patogena → **PARP**; richiede conferma germinale + counselling.\
+    -   VUS → nessuna azione, ri-interpretare periodicamente.
+
+------------------------------------------------------------------------
+
+## Raccomandazioni MTB
+
+1.  **Confermare germinale** per varianti patogene/likely patogene in BRCA1/2.\
+2.  **Consulenza genetica** e **cascade testing** per i familiari di primo grado.\
+3.  **Terapia**: PARP inibitore in mantenimento se HRD/BRCA+.\
+4.  **Trial clinici**: arruolamento se disponibili (PARP + antiangiogenici/IO, altri target ESCAT ≥ III).\
+5.  **Follow-up molecolare**: ri-analisi NGS/VUS a 6–12 mesi o alla progressione.
+
+------------------------------------------------------------------------
+
+## Materiali & Metodi
+
+-   **Piattaforma NGS**: (specificare pannello e copertura media).\
+-   **QC campione**: % cellulare tumorale, RNA DV200 se applicabile.\
+-   **Pipeline bioinformatica**: db usati (ClinVar, COSMIC, gnomAD).\
+-   **Conferma ortogonale**: Sanger/MLPA se necessario.\
+-   **Interpretazione**: secondo linee guida **AMP/ASCO/CAP** e **ESCAT**.
+
+------------------------------------------------------------------------
+
+## Appendice
+
+| Situazione | Azione consigliata | Evidenza | Note |
+|----------------------|------------------------|-------------|-------------|
+| BRCA1/2 patogena (somatica) | Conferma su sangue/saliva | Forte | Avviare counselling |
+| HRD positivo | PARP inibitore in mantenimento | Forte | Setting dipendente |
+| Nessuna alterazione HRD | Standard ± antiangiogenico | Moderata | Secondo clinica |
+| VUS | Nessuna azione clinica | \- | Ri-interpretare |
+
+------------------------------------------------------------------------

@@ -3,32 +3,128 @@ title: "Mammella — Casi MTB (HR+/HER2− e TNBC)"
 ---
 
 ```{r}
-library(readr); library(dplyr); library(gt)
-som <- read_csv("data/breast_variants_somatic.csv")
-germ <- read_csv("data/breast_variants_germline.csv")
+#| message: false
+#| warning: false
+library(readr); library(dplyr); library(gt); library(stringr); library(tidyr)
+# ===== Helpers per robustezza =====
+standardize_cols <- function(df) {
+  # mappa: target -> possibili varianti del nome
+  mapping <- list(
+    case                = c("case","Case","cohort","subset"),
+    gene                = c("gene","Gene","Hugo_Symbol","Symbol"),
+    variant             = c("variant","Variant","cDNA","cdna_change","hgvsc","hgvsc_short","c_change","mutation","c_variant","c_hgvs"),
+    protein_change      = c("protein_change","Protein","hgvsp","hgvsp_short","p_change","aa_change","p_hgvs","protein"),
+    effect              = c("consequence","effect","variant_effect","Consequence"),
+    classification      = c("classification","class","pathogenicity","clin_sig","clinical_significance","significance"),
+    escat               = c("escat","ESCAT"),
+    tier_amp_asco_cap   = c("tier_amp_asco_cap","tier","tier_amp","amp_asco_cap_tier","amp_asco_cap"),
+    vaf                 = c("vaf","VAF","allele_fraction","variant_allele_frequency","AF"),
+    depth               = c("depth","coverage","dp","read_depth","DP"),
+    pd_l1_cps           = c("pd_l1_cps","PDL1_CPS","PDL1","pd-l1","pdl1"),
+    msi_status          = c("msi_status","MSI","msi","mismatch_repair"),
+    tmb                 = c("tmb","TMB","tumor_mutational_burden","mutational_burden"),
+    her2_ihc            = c("her2_ihc","HER2_IHC","ihc_her2"),
+    her2_isHISH         = c("her2_ish","HER2_ISH","fish_her2"),
+    notes               = c("notes","note","comment","comments","interpretation","report_note")
+  )
+  for (tgt in names(mapping)) {
+    hit <- mapping[[tgt]][mapping[[tgt]] %in% names(df)]
+    if (length(hit) >= 1) df[[tgt]] <- df[[hit[1]]] else df[[tgt]] <- NA
+  }
+  df
+}
+
+# carica dati
+som  <- read_csv("data/breast_variants_somatic.csv", show_col_types = FALSE) |> standardize_cols()
+germ <- read_csv("data/breast_variants_germline.csv", show_col_types = FALSE) |> standardize_cols()
+
+# coerenza tipi numerici
+som <- som |>
+  mutate(vaf_num = suppressWarnings(as.numeric(vaf)),
+         depth_num = suppressWarnings(as.numeric(depth)),
+         tmb_num = suppressWarnings(as.numeric(tmb)),
+         pd_l1_cps_num = suppressWarnings(as.numeric(pd_l1_cps)))
+
+# utility per rendering tabella pulita
+mk_table <- function(df, caption) {
+  disp <- df |>
+    select(any_of(c("gene","variant","protein_change","effect","classification",
+                    "escat","tier_amp_asco_cap","vaf_num","depth_num","notes"))) |>
+    rename(Gene = gene, Variante = variant, Proteina = protein_change, Effetto = effect,
+           Classe = classification, ESCAT = escat, Tier = tier_amp_asco_cap,
+           VAF = vaf_num, Copertura = depth_num, Note = notes)
+  gt(disp) |>
+    tab_caption(caption) |>
+    fmt_number(columns = c("VAF"), decimals = 3) |>
+    tab_spanner(label = "Qualità", columns = c("VAF","Copertura")) |>
+    tab_source_note(md("**Nota**: VAF e copertura sono riportate solo se disponibili nei file sorgente."))
+}
 ```
 
-### Sintesi clinica
-```{{=include}} templates/clinical_breast.md
+------------------------------------------------------------------------
 
-### HR+/HER2− — Varianti di interesse
+## HR+/HER2− — Varianti di interesse
+
 ```{r}
-som %>% filter(case=="HRpos_HER2neg") %>% select(-case) %>% 
-  gt() |> tab_caption("HR+/HER2− — Varianti somatiche")
+som %>% filter(case %in% c("HRpos_HER2neg","HR+_HER2-","HRpos")) %>% select(-any_of("case")) %>%
+  mk_table("HR+/HER2− — Varianti somatiche")
 ```
 
-### TNBC — Varianti di interesse
+### Suggerimenti clinici (HR+/HER2−, aggiornati al 2025)
+
+-   **ESR1 mutato** → **elacestrant (SERD orale)** in progressione a ET/CDK4/6 **se ESR1+** (test liquido o tessuto con CDx). \[FDA 27-01-2023\]\
+    *Note*: utilità maggiore dopo **CDK4/6i** e in malattia sensibile all’ET.\
+-   **PIK3CA/AKT1/PTEN alterati** → **capivasertib + fulvestrant** (post-ET) **o** **alpelisib + ET** per **PIK3CA mut** selezionate.\
+-   **HER2-low (IHC 1+ o 2+/ISH−)** → nelle linee successive, considerare **trastuzumab deruxtecan (T‑DXd)**.\
+-   **MSI‑H/TMB‑high** (raro) → opzione **pembrolizumab** *tissue‑agnostic*.\
+-   **NTRK fusion** (rarissimo) → **larotrectinib** o **entrectinib**.
+
+> Razionale/Fonti principali: ESMO Living Guideline 2025 HR+/HER2−; FDA label **elacestrant**; FDA label **capivasertib**; DESTINY‑Breast04 per **T‑DXd**.
+
+------------------------------------------------------------------------
+
+## TNBC — Varianti di interesse
+
 ```{r}
-som %>% filter(case=="TNBC") %>% select(-case) %>% 
-  gt() |> tab_caption("TNBC — Varianti somatiche")
+som %>% filter(case %in% c("TNBC","TripleNegative")) %>% select(-any_of("case")) %>%
+  mk_table("TNBC — Varianti somatiche")
 ```
 
-### Germinale
+### Suggerimenti clinici (TNBC, aggiornati al 2025)
+
+-   **PD‑L1 CPS ≥10 (prima linea metastatica)** → **pembrolizumab + chemioterapia** (KEYNOTE‑355).\
+-   **Dopo ≥1 linea** (HR−/HER2−): **sacituzumab govitecan (Trop‑2 ADC)** ha dimostrato **beneficio OS** vs TPC.\
+-   **gBRCA1/2** → **PARP inibitori** (olaparib/talazoparib).\
+-   **HER2‑low** (sottogruppo di TNBC) → candidabile a **T‑DXd** in linee successive.\
+-   **NTRK fusions** (raro) → **larotrectinib/entrectinib**.\
+-   **MSI‑H/TMB‑high** → **pembrolizumab** *tissue‑agnostic*.
+
+> Razionale/Fonti principali: KEYNOTE‑355 per **pembrolizumab**; **ASCENT/TROPiCS‑02** e aggiornamenti 2025 per **sacituzumab govitecan**; DESTINY‑Breast04 per **T‑DXd**.
+
+------------------------------------------------------------------------
+
+## Germinale
+
 ```{r}
-gt(germ) |> tab_caption("Mammella — Varianti germinali")
+mk_table(germ, "Mammella — Varianti germinali")
 ```
 
 ::: callout-note
-- *PIK3CA* **p.H1047R** → considerare **alpelisib** + ET in HR+/HER2−.
-- *BRCA1* patogena (TNBC) → **PARP**; invio a genetica medica.
+**Indicazioni pratiche**\
+- *PIK3CA* **p.H1047R** → considerare **alpelisib** + ET (alternativa a capivasertib+fulvestrant in HR+/HER2− con PIK3CA).\
+- *ESR1* patogena → **elacestrant** dopo ET/CDK4/6i.\
+- *BRCA1/2* patogena (specialmente TNBC) → **PARP**; invio a **genetica medica** e **cascade testing**.\
+- **PD‑L1 CPS ≥10** in TNBC → **pembrolizumab + chemio** in prima linea.\
+- **HER2‑low** → **T‑DXd** in setting avanzato dopo almeno una chemioterapia.
 :::
+
+------------------------------------------------------------------------
+
+## Riferimenti (principali, per pronta consultazione)
+
+-   **ESMO Living Guideline (Aprile 2025) — HR+/HER2− MBC**: https://www.esmo.org/guidelines/living-guidelines/esmo-living-guideline-metastatic-breast-cancer/hr-positive-her2-negative-metastatic-breast-cancer/hr-her2-mbc-progressive-disease-candidate-for-endocrine-therapy-targeted-therapy\
+-   **FDA — Elacestrant (ESR1‑mut, ER+/HER2−)**: https://www.fda.gov/drugs/resources-information-approved-drugs/fda-approves-elacestrant-er-positive-her2-negative-esr1-mutated-advanced-or-metastatic-breast-cancer\
+-   **FDA — Capivasertib + fulvestrant (PIK3CA/AKT1/PTEN‑alter)**: https://www.fda.gov/drugs/resources-information-approved-drugs/fda-approves-capivasertib-fulvestrant-breast-cancer\
+-   **DESTINY‑Breast04 — T‑DXd in HER2‑low**: https://www.nejm.org/doi/full/10.1056/NEJMoa2203690\
+-   **KEYNOTE‑355 — Pembrolizumab + chemio in TNBC PD‑L1 CPS≥10**: https://pubmed.ncbi.nlm.nih.gov/35857659/\
+-   **TROPiCS‑02 / ASCENT — Sacituzumab govitecan**: https://www.thelancet.com/journals/lancet/article/PIIS0140-6736%2823%2901245-X/fulltext ; https://ascopubs.org/doi/10.1200/JCO.2023.41.16_suppl.1003 ; https://pmc.ncbi.nlm.nih.gov/articles/PMC12257498/

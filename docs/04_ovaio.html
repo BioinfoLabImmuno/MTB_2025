@@ -207,9 +207,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Indice</h2>
    
   <ul>
-  <li><a href="#sintesi-clinica" id="toc-sintesi-clinica" class="nav-link active" data-scroll-target="#sintesi-clinica"><span class="header-section-number">5.0.1</span> Sintesi clinica</a></li>
-  <li><a href="#varianti-somatiche" id="toc-varianti-somatiche" class="nav-link" data-scroll-target="#varianti-somatiche"><span class="header-section-number">5.0.2</span> Varianti somatiche</a></li>
-  <li><a href="#germinale" id="toc-germinale" class="nav-link" data-scroll-target="#germinale"><span class="header-section-number">5.0.3</span> Germinale</a></li>
+  <li><a href="#punti-chiave-hgsoc" id="toc-punti-chiave-hgsoc" class="nav-link active" data-scroll-target="#punti-chiave-hgsoc"><span class="header-section-number">5.0.1</span> Punti chiave (HGSOC)</a></li>
+  <li><a href="#varianti-somatiche" id="toc-varianti-somatiche" class="nav-link" data-scroll-target="#varianti-somatiche"><span class="header-section-number">5.1</span> Varianti somatiche</a></li>
+  <li><a href="#varianti-germinali-e-implicazioni" id="toc-varianti-germinali-e-implicazioni" class="nav-link" data-scroll-target="#varianti-germinali-e-implicazioni"><span class="header-section-number">5.2</span> Varianti germinali e implicazioni</a></li>
+  <li><a href="#interpretazione-molecolare" id="toc-interpretazione-molecolare" class="nav-link" data-scroll-target="#interpretazione-molecolare"><span class="header-section-number">5.3</span> Interpretazione molecolare</a></li>
+  <li><a href="#raccomandazioni-mtb" id="toc-raccomandazioni-mtb" class="nav-link" data-scroll-target="#raccomandazioni-mtb"><span class="header-section-number">5.4</span> Raccomandazioni MTB</a></li>
+  <li><a href="#materiali-metodi" id="toc-materiali-metodi" class="nav-link" data-scroll-target="#materiali-metodi"><span class="header-section-number">5.5</span> Materiali &amp; Metodi</a></li>
+  <li><a href="#appendice" id="toc-appendice" class="nav-link" data-scroll-target="#appendice"><span class="header-section-number">5.6</span> Appendice</a></li>
   </ul>
 </nav>
     </div>
@@ -236,36 +240,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(gt)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>som <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ovary_variants_somatic.csv"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>germ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ovary_variants_germline.csv"</span>)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="sintesi-clinica" class="level3" data-number="5.0.1">
-<h3 data-number="5.0.1" class="anchored" data-anchor-id="sintesi-clinica"><span class="header-section-number">5.0.1</span> Sintesi clinica</h3>
-<p>```{{=include}} templates/clinical_ovary.md</p>
-</section>
-<section id="varianti-somatiche" class="level3" data-number="5.0.2">
-<h3 data-number="5.0.2" class="anchored" data-anchor-id="varianti-somatiche"><span class="header-section-number">5.0.2</span> Varianti somatiche</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(som) <span class="sc">|&gt;</span> <span class="fu">tab_caption</span>(<span class="st">"HGSOC — Varianti somatiche"</span>)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr); <span class="fu">library</span>(dplyr); <span class="fu">library</span>(gt); <span class="fu">library</span>(stringr); <span class="fu">library</span>(tidyr)<span class="co"># ---------- helpers robusti ----------</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>standardize_cols <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mappa: target -&gt; possibili nomi nella pratica</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  mapping <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gene                 =</span> <span class="fu">c</span>(<span class="st">"gene"</span>,<span class="st">"Gene"</span>,<span class="st">"Hugo_Symbol"</span>,<span class="st">"Symbol"</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">variant              =</span> <span class="fu">c</span>(<span class="st">"variant"</span>,<span class="st">"Variant"</span>,<span class="st">"cDNA"</span>,<span class="st">"cdna_change"</span>,<span class="st">"hgvsc"</span>,<span class="st">"hgvsc_short"</span>,<span class="st">"c_change"</span>,<span class="st">"mutation"</span>,<span class="st">"c_variant"</span>,<span class="st">"c_hgvs"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">protein_change       =</span> <span class="fu">c</span>(<span class="st">"protein_change"</span>,<span class="st">"Protein"</span>,<span class="st">"hgvsp"</span>,<span class="st">"hgvsp_short"</span>,<span class="st">"p_change"</span>,<span class="st">"aa_change"</span>,<span class="st">"p_hgvs"</span>,<span class="st">"protein"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">classification       =</span> <span class="fu">c</span>(<span class="st">"classification"</span>,<span class="st">"class"</span>,<span class="st">"pathogenicity"</span>,<span class="st">"clin_sig"</span>,<span class="st">"clinical_significance"</span>,<span class="st">"significance"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">escat                =</span> <span class="fu">c</span>(<span class="st">"escat"</span>,<span class="st">"ESCAT"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tier_amp_asco_cap    =</span> <span class="fu">c</span>(<span class="st">"tier_amp_asco_cap"</span>,<span class="st">"tier"</span>,<span class="st">"tier_amp"</span>,<span class="st">"amp_asco_cap_tier"</span>,<span class="st">"amp_asco_cap"</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">vaf                  =</span> <span class="fu">c</span>(<span class="st">"vaf"</span>,<span class="st">"VAF"</span>,<span class="st">"vaf_fraction"</span>,<span class="st">"allele_fraction"</span>,<span class="st">"variant_allele_frequency"</span>,<span class="st">"AF"</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">depth                =</span> <span class="fu">c</span>(<span class="st">"depth"</span>,<span class="st">"coverage"</span>,<span class="st">"dp"</span>,<span class="st">"read_depth"</span>,<span class="st">"DP"</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">notes                =</span> <span class="fu">c</span>(<span class="st">"notes"</span>,<span class="st">"note"</span>,<span class="st">"comment"</span>,<span class="st">"comments"</span>,<span class="st">"interpretation"</span>,<span class="st">"report_note"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># per ogni target, copia dalla prima cand. esistente o crea NA</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (tgt <span class="cf">in</span> <span class="fu">names</span>(mapping)) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    cands <span class="ot">&lt;-</span> mapping[[tgt]]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    hit <span class="ot">&lt;-</span> cands[cands <span class="sc">%in%</span> <span class="fu">names</span>(df)]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(hit) <span class="sc">&gt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      df[[tgt]] <span class="ot">&lt;-</span> df[[ hit[<span class="dv">1</span>] ]]</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      df[[tgt]] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  df</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>safe_flag_cols_somatic <span class="ot">&lt;-</span> <span class="cf">function</span>(df){</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">pathogenic_like =</span> <span class="cf">if</span> (<span class="st">"classification"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">str_detect</span>(<span class="fu">tolower</span>(<span class="fu">coalesce</span>(classification,<span class="st">""</span>)), <span class="st">"patho|likely"</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">else</span> <span class="cn">NA</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">high_actionability =</span> <span class="cf">if</span> (<span class="st">"escat"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">str_detect</span>(<span class="fu">tolower</span>(<span class="fu">coalesce</span>(escat,<span class="st">""</span>)), <span class="st">"i|ii"</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">else</span> <span class="cn">NA</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">qc_low_vaf =</span> <span class="cf">if</span> (<span class="st">"vaf"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.))</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(vaf))) <span class="sc">&amp;</span> <span class="fu">as.numeric</span>(vaf) <span class="sc">&lt;</span> <span class="fl">0.05</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">else</span> <span class="cn">NA</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">qc_low_depth =</span> <span class="cf">if</span> (<span class="st">"depth"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.))</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(<span class="fu">suppressWarnings</span>(<span class="fu">as.numeric</span>(depth))) <span class="sc">&amp;</span> <span class="fu">as.numeric</span>(depth) <span class="sc">&lt;</span> <span class="dv">250</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>safe_flag_cols_germline <span class="ot">&lt;-</span> <span class="cf">function</span>(df){</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">needs_cascade =</span> <span class="cf">if</span> (<span class="st">"classification"</span> <span class="sc">%in%</span> <span class="fu">names</span>(.))</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">str_detect</span>(<span class="fu">tolower</span>(<span class="fu">coalesce</span>(classification,<span class="st">""</span>)), <span class="st">"patho|likely"</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span> <span class="cn">NA</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># importa dati</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>som  <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ovary_variants_somatic.csv"</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>germ <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/ovary_variants_germline.csv"</span>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># arricchisci con flag utili se colonne presenti</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>som </span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="xhfeugfcrr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xhfeugfcrr table {
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["gene"],"name":[1],"type":["chr"],"align":["left"]},{"label":["variant_cDNA"],"name":[2],"type":["chr"],"align":["left"]},{"label":["variant_protein"],"name":[3],"type":["chr"],"align":["left"]},{"label":["effect"],"name":[4],"type":["chr"],"align":["left"]},{"label":["vaf"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["depth"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["copy_number"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["tier_amp_ascocap"],"name":[8],"type":["chr"],"align":["left"]},{"label":["escat"],"name":[9],"type":["chr"],"align":["left"]},{"label":["evidence_summary"],"name":[10],"type":["chr"],"align":["left"]}],"data":[{"1":"BRCA1","2":"c.68_69delAG","3":"p.Glu23Valfs*17","4":"Pathogenic (LOF)","5":"0.46","6":"520","7":"NA","8":"Tier IA","9":"I-A","10":"PARP inhibitor sensitivity (frontline/maintenance) in HRD."},{"1":"TP53","2":"c.743G>A","3":"p.R248Q","4":"Pathogenic","5":"0.62","6":"600","7":"NA","8":"Tier I","9":"Contextual","10":"Foundational HGSOC driver."},{"1":"CCNE1","2":"amplification","3":"—","4":"Amplification","5":"NA","6":"NA","7":"7","8":"Tier IIC","9":"III","10":"May impact chemo-sensitivity; PARP benefit may vary if CCNE1-high."}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>germ <span class="ot">&lt;-</span> germ <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">needs_cascade =</span> <span class="fu">str_detect</span>(<span class="fu">tolower</span>(<span class="fu">coalesce</span>(classification,<span class="st">""</span>)), <span class="st">"patho|likely"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># normalizza nomi chiave</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>som  <span class="ot">&lt;-</span> <span class="fu">standardize_cols</span>(som)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>germ <span class="ot">&lt;-</span> <span class="fu">standardize_cols</span>(germ)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># aggiungi flag robusti</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>som  <span class="ot">&lt;-</span> <span class="fu">safe_flag_cols_somatic</span>(som)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>germ <span class="ot">&lt;-</span> <span class="fu">safe_flag_cols_germline</span>(germ)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="punti-chiave-hgsoc" class="level3" data-number="5.0.1">
+<h3 data-number="5.0.1" class="anchored" data-anchor-id="punti-chiave-hgsoc"><span class="header-section-number">5.0.1</span> Punti chiave (HGSOC)</h3>
+<ul>
+<li><strong>Carcinoma sieroso ad alto grado</strong>: tipicamente con difetti di ricombinazione omologa (<strong>HRD-high</strong>, <strong>BRCA1/2</strong>, <strong>TP53</strong>).<br>
+</li>
+<li><strong>Terapia</strong>: PARP inibitori se <strong>HRD+</strong> o <strong>BRCA patogena</strong>; antiangiogenici in setting selezionati.<br>
+</li>
+<li><strong>Genetica</strong>: varianti in <strong>BRCA1/2</strong> richiedono <strong>conferma germinale</strong> e <strong>counselling genetico</strong>.<br>
+</li>
+<li><strong>Framework</strong>: interpretazione secondo <strong>AMP/ASCO/CAP</strong> (validità analitica/clinica) ed <strong>ESCAT</strong> (azionabilità clinica).</li>
+</ul>
+</section>
+<section id="varianti-somatiche" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="varianti-somatiche"><span class="header-section-number">5.1</span> Varianti somatiche</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>som_disp <span class="ot">&lt;-</span> som <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gene =</span> gene, <span class="at">Variante =</span> variant_cDNA, <span class="at">Proteina =</span> variant_protein,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Classe =</span> effect, <span class="at">ESCAT =</span> escat, <span class="at">Tier =</span> tier_amp_ascocap,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">VAF =</span> vaf, <span class="at">Copertura =</span> depth</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(som_disp) <span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_caption</span>(<span class="st">"HGSOC — Varianti somatiche"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(VAF), <span class="at">decimals =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(<span class="at">label =</span> <span class="st">"Qualità"</span>, <span class="at">columns =</span> <span class="fu">c</span>(VAF, Copertura)) <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#fff3cd"</span>),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">rows =</span> qc_low_vaf <span class="sc">|</span> qc_low_depth)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#d4edda"</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">rows =</span> high_actionability <span class="sc">|</span> pathogenic_like)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"**QC**: giallo = VAF &lt;5% o copertura &lt;250× (interpretare con cautela)."</span>))</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ruzsdcjjue" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ruzsdcjjue table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xhfeugfcrr thead, #xhfeugfcrr tbody, #xhfeugfcrr tfoot, #xhfeugfcrr tr, #xhfeugfcrr td, #xhfeugfcrr th {
+#ruzsdcjjue thead, #ruzsdcjjue tbody, #ruzsdcjjue tfoot, #ruzsdcjjue tr, #ruzsdcjjue td, #ruzsdcjjue th {
   border-style: none;
 }
 
-#xhfeugfcrr p {
+#ruzsdcjjue p {
   margin: 0;
   padding: 0;
 }
 
-#xhfeugfcrr .gt_table {
+#ruzsdcjjue .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -291,12 +394,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_caption {
+#ruzsdcjjue .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xhfeugfcrr .gt_title {
+#ruzsdcjjue .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -308,7 +411,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#xhfeugfcrr .gt_subtitle {
+#ruzsdcjjue .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -320,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#xhfeugfcrr .gt_heading {
+#ruzsdcjjue .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -332,13 +435,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_bottom_border {
+#ruzsdcjjue .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_col_headings {
+#ruzsdcjjue .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -353,7 +456,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_col_heading {
+#ruzsdcjjue .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -373,7 +476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xhfeugfcrr .gt_column_spanner_outer {
+#ruzsdcjjue .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -385,15 +488,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#xhfeugfcrr .gt_column_spanner_outer:first-child {
+#ruzsdcjjue .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xhfeugfcrr .gt_column_spanner_outer:last-child {
+#ruzsdcjjue .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xhfeugfcrr .gt_column_spanner {
+#ruzsdcjjue .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -405,11 +508,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#xhfeugfcrr .gt_spanner_row {
+#ruzsdcjjue .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xhfeugfcrr .gt_group_heading {
+#ruzsdcjjue .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -435,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#xhfeugfcrr .gt_empty_group_heading {
+#ruzsdcjjue .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -450,15 +553,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#xhfeugfcrr .gt_from_md > :first-child {
+#ruzsdcjjue .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xhfeugfcrr .gt_from_md > :last-child {
+#ruzsdcjjue .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xhfeugfcrr .gt_row {
+#ruzsdcjjue .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -477,7 +580,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#xhfeugfcrr .gt_stub {
+#ruzsdcjjue .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -490,7 +593,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xhfeugfcrr .gt_stub_row_group {
+#ruzsdcjjue .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -504,15 +607,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#xhfeugfcrr .gt_row_group_first td {
+#ruzsdcjjue .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xhfeugfcrr .gt_row_group_first th {
+#ruzsdcjjue .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xhfeugfcrr .gt_summary_row {
+#ruzsdcjjue .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -522,16 +625,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xhfeugfcrr .gt_first_summary_row {
+#ruzsdcjjue .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_first_summary_row.thick {
+#ruzsdcjjue .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xhfeugfcrr .gt_last_summary_row {
+#ruzsdcjjue .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -541,7 +644,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_grand_summary_row {
+#ruzsdcjjue .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -551,7 +654,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xhfeugfcrr .gt_first_grand_summary_row {
+#ruzsdcjjue .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -561,7 +664,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_last_grand_summary_row_top {
+#ruzsdcjjue .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -571,11 +674,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_striped {
+#ruzsdcjjue .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xhfeugfcrr .gt_table_body {
+#ruzsdcjjue .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -584,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_footnotes {
+#ruzsdcjjue .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -598,7 +701,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_footnote {
+#ruzsdcjjue .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -607,7 +710,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xhfeugfcrr .gt_sourcenotes {
+#ruzsdcjjue .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -621,7 +724,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#xhfeugfcrr .gt_sourcenote {
+#ruzsdcjjue .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -629,158 +732,238 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#xhfeugfcrr .gt_left {
+#ruzsdcjjue .gt_left {
   text-align: left;
 }
 
-#xhfeugfcrr .gt_center {
+#ruzsdcjjue .gt_center {
   text-align: center;
 }
 
-#xhfeugfcrr .gt_right {
+#ruzsdcjjue .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xhfeugfcrr .gt_font_normal {
+#ruzsdcjjue .gt_font_normal {
   font-weight: normal;
 }
 
-#xhfeugfcrr .gt_font_bold {
+#ruzsdcjjue .gt_font_bold {
   font-weight: bold;
 }
 
-#xhfeugfcrr .gt_font_italic {
+#ruzsdcjjue .gt_font_italic {
   font-style: italic;
 }
 
-#xhfeugfcrr .gt_super {
+#ruzsdcjjue .gt_super {
   font-size: 65%;
 }
 
-#xhfeugfcrr .gt_footnote_marks {
+#ruzsdcjjue .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xhfeugfcrr .gt_asterisk {
+#ruzsdcjjue .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xhfeugfcrr .gt_indent_1 {
+#ruzsdcjjue .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xhfeugfcrr .gt_indent_2 {
+#ruzsdcjjue .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xhfeugfcrr .gt_indent_3 {
+#ruzsdcjjue .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xhfeugfcrr .gt_indent_4 {
+#ruzsdcjjue .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xhfeugfcrr .gt_indent_5 {
+#ruzsdcjjue .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xhfeugfcrr .katex-display {
+#ruzsdcjjue .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xhfeugfcrr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ruzsdcjjue div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
 
 <table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
 <caption>HGSOC — Varianti somatiche</caption>
+<colgroup>
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+</colgroup>
 <thead>
-<tr class="gt_col_headings header">
-<th id="gene" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">gene</th>
-<th id="variant_cDNA" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">variant_cDNA</th>
-<th id="variant_protein" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">variant_protein</th>
-<th id="effect" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">effect</th>
-<th id="vaf" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">vaf</th>
-<th id="depth" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">depth</th>
-<th id="copy_number" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">copy_number</th>
-<th id="tier_amp_ascocap" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">tier_amp_ascocap</th>
-<th id="escat" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">escat</th>
-<th id="evidence_summary" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">evidence_summary</th>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="Gene" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Gene</th>
+<th rowspan="2" id="Variante" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Variante</th>
+<th rowspan="2" id="Proteina" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Proteina</th>
+<th rowspan="2" id="Classe" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Classe</th>
+<th colspan="2" id="Qualità" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Qualità
+</div></th>
+<th rowspan="2" id="copy_number" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">copy_number</th>
+<th rowspan="2" id="Tier" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Tier</th>
+<th rowspan="2" id="ESCAT" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">ESCAT</th>
+<th rowspan="2" id="evidence_summary" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">evidence_summary</th>
+<th rowspan="2" id="variant" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">variant</th>
+<th rowspan="2" id="protein_change" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">protein_change</th>
+<th rowspan="2" id="classification" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">classification</th>
+<th rowspan="2" id="tier_amp_asco_cap" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">tier_amp_asco_cap</th>
+<th rowspan="2" id="notes" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">notes</th>
+<th rowspan="2" id="pathogenic_like" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">pathogenic_like</th>
+<th rowspan="2" id="high_actionability" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">high_actionability</th>
+<th rowspan="2" id="qc_low_vaf" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">qc_low_vaf</th>
+<th rowspan="2" id="qc_low_depth" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">qc_low_depth</th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="VAF" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">VAF</th>
+<th id="Copertura" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Copertura</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="gene">BRCA1</td>
-<td class="gt_row gt_left" headers="variant_cDNA">c.68_69delAG</td>
-<td class="gt_row gt_left" headers="variant_protein">p.Glu23Valfs*17</td>
-<td class="gt_row gt_left" headers="effect">Pathogenic (LOF)</td>
-<td class="gt_row gt_right" headers="vaf">0.46</td>
-<td class="gt_row gt_right" headers="depth">520</td>
-<td class="gt_row gt_right" headers="copy_number">NA</td>
-<td class="gt_row gt_left" headers="tier_amp_ascocap">Tier IA</td>
-<td class="gt_row gt_left" headers="escat">I-A</td>
-<td class="gt_row gt_left" headers="evidence_summary">PARP inhibitor sensitivity (frontline/maintenance) in HRD.</td>
+<td class="gt_row gt_left" headers="Gene" style="background-color: #D4EDDA">BRCA1</td>
+<td class="gt_row gt_left" headers="Variante" style="background-color: #D4EDDA">c.68_69delAG</td>
+<td class="gt_row gt_left" headers="Proteina" style="background-color: #D4EDDA">p.Glu23Valfs*17</td>
+<td class="gt_row gt_left" headers="Classe" style="background-color: #D4EDDA">Pathogenic (LOF)</td>
+<td class="gt_row gt_right" headers="VAF" style="background-color: #D4EDDA">0.460</td>
+<td class="gt_row gt_right" headers="Copertura" style="background-color: #D4EDDA">520</td>
+<td class="gt_row gt_right" headers="copy_number" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_left" headers="Tier" style="background-color: #D4EDDA">Tier IA</td>
+<td class="gt_row gt_left" headers="ESCAT" style="background-color: #D4EDDA">I-A</td>
+<td class="gt_row gt_left" headers="evidence_summary" style="background-color: #D4EDDA">PARP inhibitor sensitivity (frontline/maintenance) in HRD.</td>
+<td class="gt_row gt_center" headers="variant" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="protein_change" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="classification" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="tier_amp_asco_cap" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="notes" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="pathogenic_like" style="background-color: #D4EDDA">FALSE</td>
+<td class="gt_row gt_center" headers="high_actionability" style="background-color: #D4EDDA">TRUE</td>
+<td class="gt_row gt_center" headers="qc_low_vaf" style="background-color: #D4EDDA">FALSE</td>
+<td class="gt_row gt_center" headers="qc_low_depth" style="background-color: #D4EDDA">FALSE</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="gene">TP53</td>
-<td class="gt_row gt_left" headers="variant_cDNA">c.743G&gt;A</td>
-<td class="gt_row gt_left" headers="variant_protein">p.R248Q</td>
-<td class="gt_row gt_left" headers="effect">Pathogenic</td>
-<td class="gt_row gt_right" headers="vaf">0.62</td>
-<td class="gt_row gt_right" headers="depth">600</td>
+<td class="gt_row gt_left" headers="Gene">TP53</td>
+<td class="gt_row gt_left" headers="Variante">c.743G&gt;A</td>
+<td class="gt_row gt_left" headers="Proteina">p.R248Q</td>
+<td class="gt_row gt_left" headers="Classe">Pathogenic</td>
+<td class="gt_row gt_right" headers="VAF">0.620</td>
+<td class="gt_row gt_right" headers="Copertura">600</td>
 <td class="gt_row gt_right" headers="copy_number">NA</td>
-<td class="gt_row gt_left" headers="tier_amp_ascocap">Tier I</td>
-<td class="gt_row gt_left" headers="escat">Contextual</td>
+<td class="gt_row gt_left" headers="Tier">Tier I</td>
+<td class="gt_row gt_left" headers="ESCAT">Contextual</td>
 <td class="gt_row gt_left" headers="evidence_summary">Foundational HGSOC driver.</td>
+<td class="gt_row gt_center" headers="variant">NA</td>
+<td class="gt_row gt_center" headers="protein_change">NA</td>
+<td class="gt_row gt_center" headers="classification">NA</td>
+<td class="gt_row gt_center" headers="tier_amp_asco_cap">NA</td>
+<td class="gt_row gt_center" headers="notes">NA</td>
+<td class="gt_row gt_center" headers="pathogenic_like">FALSE</td>
+<td class="gt_row gt_center" headers="high_actionability">FALSE</td>
+<td class="gt_row gt_center" headers="qc_low_vaf">FALSE</td>
+<td class="gt_row gt_center" headers="qc_low_depth">FALSE</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="gene">CCNE1</td>
-<td class="gt_row gt_left" headers="variant_cDNA">amplification</td>
-<td class="gt_row gt_left" headers="variant_protein">—</td>
-<td class="gt_row gt_left" headers="effect">Amplification</td>
-<td class="gt_row gt_right" headers="vaf">NA</td>
-<td class="gt_row gt_right" headers="depth">NA</td>
-<td class="gt_row gt_right" headers="copy_number">7</td>
-<td class="gt_row gt_left" headers="tier_amp_ascocap">Tier IIC</td>
-<td class="gt_row gt_left" headers="escat">III</td>
-<td class="gt_row gt_left" headers="evidence_summary">May impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.</td>
+<td class="gt_row gt_left" headers="Gene" style="background-color: #D4EDDA">CCNE1</td>
+<td class="gt_row gt_left" headers="Variante" style="background-color: #D4EDDA">amplification</td>
+<td class="gt_row gt_left" headers="Proteina" style="background-color: #D4EDDA">—</td>
+<td class="gt_row gt_left" headers="Classe" style="background-color: #D4EDDA">Amplification</td>
+<td class="gt_row gt_right" headers="VAF" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_right" headers="Copertura" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_right" headers="copy_number" style="background-color: #D4EDDA">7</td>
+<td class="gt_row gt_left" headers="Tier" style="background-color: #D4EDDA">Tier IIC</td>
+<td class="gt_row gt_left" headers="ESCAT" style="background-color: #D4EDDA">III</td>
+<td class="gt_row gt_left" headers="evidence_summary" style="background-color: #D4EDDA">May impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.</td>
+<td class="gt_row gt_center" headers="variant" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="protein_change" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="classification" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="tier_amp_asco_cap" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="notes" style="background-color: #D4EDDA">NA</td>
+<td class="gt_row gt_center" headers="pathogenic_like" style="background-color: #D4EDDA">FALSE</td>
+<td class="gt_row gt_center" headers="high_actionability" style="background-color: #D4EDDA">TRUE</td>
+<td class="gt_row gt_center" headers="qc_low_vaf" style="background-color: #D4EDDA">FALSE</td>
+<td class="gt_row gt_center" headers="qc_low_depth" style="background-color: #D4EDDA">FALSE</td>
 </tr>
-</tbody>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="19" class="gt_sourcenote"><strong>QC</strong>: giallo = VAF &lt;5% o copertura &lt;250× (interpretare con cautela).</td>
+</tr>
+</tfoot>
+
 </table>
 
 </div>
 </div>
 </div>
+<hr>
 </section>
-<section id="germinale" class="level3" data-number="5.0.3">
-<h3 data-number="5.0.3" class="anchored" data-anchor-id="germinale"><span class="header-section-number">5.0.3</span> Germinale</h3>
+<section id="varianti-germinali-e-implicazioni" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="varianti-germinali-e-implicazioni"><span class="header-section-number">5.2</span> Varianti germinali e implicazioni</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(germ) <span class="sc">|&gt;</span> <span class="fu">tab_caption</span>(<span class="st">"HGSOC — Varianti germinali e implicazioni"</span>)</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>germ_disp <span class="ot">&lt;-</span> germ <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Gene =</span> gene, <span class="at">Variante =</span> variant, <span class="at">Proteina =</span> protein_change,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Classe =</span> classification, <span class="at">Note =</span> notes</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(germ_disp) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_caption</span>(<span class="st">"HGSOC — Varianti germinali e implicazioni"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#fde2e2"</span>),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">rows =</span> needs_cascade)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(<span class="fu">md</span>(<span class="st">"**Rosso** = varianti che richiedono conferma germinale e counselling/cascade testing."</span>))</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="csgsyvuzvq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#csgsyvuzvq table {
+<div id="twuunljylv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#twuunljylv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#csgsyvuzvq thead, #csgsyvuzvq tbody, #csgsyvuzvq tfoot, #csgsyvuzvq tr, #csgsyvuzvq td, #csgsyvuzvq th {
+#twuunljylv thead, #twuunljylv tbody, #twuunljylv tfoot, #twuunljylv tr, #twuunljylv td, #twuunljylv th {
   border-style: none;
 }
 
-#csgsyvuzvq p {
+#twuunljylv p {
   margin: 0;
   padding: 0;
 }
 
-#csgsyvuzvq .gt_table {
+#twuunljylv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -806,12 +989,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_caption {
+#twuunljylv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#csgsyvuzvq .gt_title {
+#twuunljylv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -823,7 +1006,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#csgsyvuzvq .gt_subtitle {
+#twuunljylv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -835,7 +1018,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#csgsyvuzvq .gt_heading {
+#twuunljylv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -847,13 +1030,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_bottom_border {
+#twuunljylv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_col_headings {
+#twuunljylv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -868,7 +1051,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_col_heading {
+#twuunljylv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -888,7 +1071,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#csgsyvuzvq .gt_column_spanner_outer {
+#twuunljylv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -900,15 +1083,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#csgsyvuzvq .gt_column_spanner_outer:first-child {
+#twuunljylv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#csgsyvuzvq .gt_column_spanner_outer:last-child {
+#twuunljylv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#csgsyvuzvq .gt_column_spanner {
+#twuunljylv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -920,11 +1103,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#csgsyvuzvq .gt_spanner_row {
+#twuunljylv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#csgsyvuzvq .gt_group_heading {
+#twuunljylv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -950,7 +1133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#csgsyvuzvq .gt_empty_group_heading {
+#twuunljylv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -965,15 +1148,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#csgsyvuzvq .gt_from_md > :first-child {
+#twuunljylv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#csgsyvuzvq .gt_from_md > :last-child {
+#twuunljylv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#csgsyvuzvq .gt_row {
+#twuunljylv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -992,7 +1175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#csgsyvuzvq .gt_stub {
+#twuunljylv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1005,7 +1188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csgsyvuzvq .gt_stub_row_group {
+#twuunljylv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1019,15 +1202,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#csgsyvuzvq .gt_row_group_first td {
+#twuunljylv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#csgsyvuzvq .gt_row_group_first th {
+#twuunljylv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#csgsyvuzvq .gt_summary_row {
+#twuunljylv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1037,16 +1220,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csgsyvuzvq .gt_first_summary_row {
+#twuunljylv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_first_summary_row.thick {
+#twuunljylv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#csgsyvuzvq .gt_last_summary_row {
+#twuunljylv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1056,7 +1239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_grand_summary_row {
+#twuunljylv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1066,7 +1249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csgsyvuzvq .gt_first_grand_summary_row {
+#twuunljylv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1076,7 +1259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_last_grand_summary_row_top {
+#twuunljylv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1086,11 +1269,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_striped {
+#twuunljylv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#csgsyvuzvq .gt_table_body {
+#twuunljylv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1099,7 +1282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_footnotes {
+#twuunljylv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1113,7 +1296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_footnote {
+#twuunljylv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1122,7 +1305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csgsyvuzvq .gt_sourcenotes {
+#twuunljylv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1136,7 +1319,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#csgsyvuzvq .gt_sourcenote {
+#twuunljylv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1144,72 +1327,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#csgsyvuzvq .gt_left {
+#twuunljylv .gt_left {
   text-align: left;
 }
 
-#csgsyvuzvq .gt_center {
+#twuunljylv .gt_center {
   text-align: center;
 }
 
-#csgsyvuzvq .gt_right {
+#twuunljylv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#csgsyvuzvq .gt_font_normal {
+#twuunljylv .gt_font_normal {
   font-weight: normal;
 }
 
-#csgsyvuzvq .gt_font_bold {
+#twuunljylv .gt_font_bold {
   font-weight: bold;
 }
 
-#csgsyvuzvq .gt_font_italic {
+#twuunljylv .gt_font_italic {
   font-style: italic;
 }
 
-#csgsyvuzvq .gt_super {
+#twuunljylv .gt_super {
   font-size: 65%;
 }
 
-#csgsyvuzvq .gt_footnote_marks {
+#twuunljylv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#csgsyvuzvq .gt_asterisk {
+#twuunljylv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#csgsyvuzvq .gt_indent_1 {
+#twuunljylv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#csgsyvuzvq .gt_indent_2 {
+#twuunljylv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#csgsyvuzvq .gt_indent_3 {
+#twuunljylv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#csgsyvuzvq .gt_indent_4 {
+#twuunljylv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#csgsyvuzvq .gt_indent_5 {
+#twuunljylv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#csgsyvuzvq .katex-display {
+#twuunljylv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#csgsyvuzvq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#twuunljylv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1218,42 +1401,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <caption>HGSOC — Varianti germinali e implicazioni</caption>
 <thead>
 <tr class="gt_col_headings header">
-<th id="gene" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">gene</th>
+<th id="Gene" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Gene</th>
 <th id="variant_cDNA" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">variant_cDNA</th>
 <th id="variant_protein" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">variant_protein</th>
-<th id="classification" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">classification</th>
+<th id="Classe" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Classe</th>
 <th id="reportable" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">reportable</th>
 <th id="note" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">note</th>
+<th id="needs_cascade" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">needs_cascade</th>
+<th id="Variante" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Variante</th>
+<th id="Proteina" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Proteina</th>
+<th id="escat" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">escat</th>
+<th id="tier_amp_asco_cap" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">tier_amp_asco_cap</th>
+<th id="vaf" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">vaf</th>
+<th id="depth" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">depth</th>
+<th id="Note" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Note</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="gene">BRCA1</td>
-<td class="gt_row gt_left" headers="variant_cDNA">c.68_69delAG</td>
-<td class="gt_row gt_left" headers="variant_protein">p.Glu23Valfs*17</td>
-<td class="gt_row gt_left" headers="classification">Pathogenic</td>
-<td class="gt_row gt_left" headers="reportable">Yes</td>
-<td class="gt_row gt_left" headers="note">Strong indication for germline confirmation and cascade testing.</td>
+<td class="gt_row gt_left" headers="Gene" style="background-color: #FDE2E2">BRCA1</td>
+<td class="gt_row gt_left" headers="variant_cDNA" style="background-color: #FDE2E2">c.68_69delAG</td>
+<td class="gt_row gt_left" headers="variant_protein" style="background-color: #FDE2E2">p.Glu23Valfs*17</td>
+<td class="gt_row gt_left" headers="Classe" style="background-color: #FDE2E2">Pathogenic</td>
+<td class="gt_row gt_left" headers="reportable" style="background-color: #FDE2E2">Yes</td>
+<td class="gt_row gt_left" headers="note" style="background-color: #FDE2E2">Strong indication for germline confirmation and cascade testing.</td>
+<td class="gt_row gt_center" headers="needs_cascade" style="background-color: #FDE2E2">TRUE</td>
+<td class="gt_row gt_center" headers="Variante" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_center" headers="Proteina" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_center" headers="escat" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_center" headers="tier_amp_asco_cap" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_center" headers="vaf" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_center" headers="depth" style="background-color: #FDE2E2">NA</td>
+<td class="gt_row gt_left" headers="Note" style="background-color: #FDE2E2">Strong indication for germline confirmation and cascade testing.</td>
 </tr>
-</tbody>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="14" class="gt_sourcenote"><strong>Rosso</strong> = varianti che richiedono conferma germinale e counselling/cascade testing.</td>
+</tr>
+</tfoot>
+
 </table>
 
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Consiglio
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Decisione tipica</strong> — Mantenimento con <strong>PARP</strong> in presenza di HRD/<strong>BRCA1</strong> patogena; pianificare <strong>counselling</strong> e <strong>testing</strong> dei familiari.</p>
-</div>
-</div>
+<hr>
+</section>
+<section id="interpretazione-molecolare" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="interpretazione-molecolare"><span class="header-section-number">5.3</span> Interpretazione molecolare</h2>
+<ul>
+<li><strong>AMP/ASCO/CAP</strong>:
+<ul>
+<li><em>Tier I–II</em>: clinicamente rilevanti → terapia o trial.<br>
+</li>
+<li><em>Tier III</em>: incerto → monitorare.<br>
+</li>
+<li><em>Tier IV</em>: benigno → nessuna azione.</li>
+</ul></li>
+<li><strong>ESCAT</strong>:
+<ul>
+<li><em>I–II</em>: evidenza robusta → terapia target.<br>
+</li>
+<li><em>III–IV</em>: segnali preliminari → solo trial.<br>
+</li>
+<li><em>V</em>: solo preclinico.</li>
+</ul></li>
+<li><strong>HRD / BRCA</strong>:
+<ul>
+<li>BRCA1/2 patogena → <strong>PARP</strong>; richiede conferma germinale + counselling.<br>
+</li>
+<li>VUS → nessuna azione, ri-interpretare periodicamente.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="raccomandazioni-mtb" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="raccomandazioni-mtb"><span class="header-section-number">5.4</span> Raccomandazioni MTB</h2>
+<ol type="1">
+<li><strong>Confermare germinale</strong> per varianti patogene/likely patogene in BRCA1/2.<br>
+</li>
+<li><strong>Consulenza genetica</strong> e <strong>cascade testing</strong> per i familiari di primo grado.<br>
+</li>
+<li><strong>Terapia</strong>: PARP inibitore in mantenimento se HRD/BRCA+.<br>
+</li>
+<li><strong>Trial clinici</strong>: arruolamento se disponibili (PARP + antiangiogenici/IO, altri target ESCAT ≥ III).<br>
+</li>
+<li><strong>Follow-up molecolare</strong>: ri-analisi NGS/VUS a 6–12 mesi o alla progressione.</li>
+</ol>
+<hr>
+</section>
+<section id="materiali-metodi" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="materiali-metodi"><span class="header-section-number">5.5</span> Materiali &amp; Metodi</h2>
+<ul>
+<li><strong>Piattaforma NGS</strong>: (specificare pannello e copertura media).<br>
+</li>
+<li><strong>QC campione</strong>: % cellulare tumorale, RNA DV200 se applicabile.<br>
+</li>
+<li><strong>Pipeline bioinformatica</strong>: db usati (ClinVar, COSMIC, gnomAD).<br>
+</li>
+<li><strong>Conferma ortogonale</strong>: Sanger/MLPA se necessario.<br>
+</li>
+<li><strong>Interpretazione</strong>: secondo linee guida <strong>AMP/ASCO/CAP</strong> e <strong>ESCAT</strong>.</li>
+</ul>
+<hr>
+</section>
+<section id="appendice" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="appendice"><span class="header-section-number">5.6</span> Appendice</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 33%">
+<col style="width: 18%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situazione</th>
+<th>Azione consigliata</th>
+<th>Evidenza</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>BRCA1/2 patogena (somatica)</td>
+<td>Conferma su sangue/saliva</td>
+<td>Forte</td>
+<td>Avviare counselling</td>
+</tr>
+<tr class="even">
+<td>HRD positivo</td>
+<td>PARP inibitore in mantenimento</td>
+<td>Forte</td>
+<td>Setting dipendente</td>
+</tr>
+<tr class="odd">
+<td>Nessuna alterazione HRD</td>
+<td>Standard ± antiangiogenico</td>
+<td>Moderata</td>
+<td>Secondo clinica</td>
+</tr>
+<tr class="even">
+<td>VUS</td>
+<td>Nessuna azione clinica</td>
+<td>-</td>
+<td>Ri-interpretare</td>
+</tr>
+</tbody>
+</table>
+<hr>
 
 
 </section>
