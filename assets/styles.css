@@ -1,0 +1,9 @@
+
+/* Minimal clean look for tables and callouts */
+:root {
+  --primary: #0b5fff;
+}
+.navbar, .sidebar { font-size: 0.95rem; }
+caption, .figcaption, .table-caption { font-style: italic; }
+.callout { border-radius: 10px; }
+code, pre { font-size: .9rem; }
