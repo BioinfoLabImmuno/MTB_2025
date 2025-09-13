@@ -1,0 +1,53 @@
+name: Quarto Publish
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "quarto-pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Installa Quarto
+      - uses: quarto-dev/quarto-actions/setup@v2
+
+      # (Opzionale) Se usi Python nei capitoli
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.11'
+      # - run: pip install -r requirements.txt
+
+      # (Opzionale) Se usi R
+      # - uses: r-lib/actions/setup-r@v2
+      # - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Render Quarto book
+        run: quarto render
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs   # combacia con output-dir: docs del tuo _quarto.yml
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
