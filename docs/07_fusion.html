@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; RNAfusion – Molecular Tumor Board — Simulation Handbook</title>
+<title>RNAfusion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,14 +24,11 @@ ul.task-list li input[type="checkbox"] {
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./08_Fusion2.html" rel="next">
-<link href="./05_breast.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -40,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-854d42f42d0f6b455b86ad16a464e311.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-09537c9ecba8558085948e1b802a414a.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -73,110 +70,24 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07_fusion.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Molecular Tumor Board — Simulation Handbook</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Ricerca"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./01_avvio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Molecular Tumor Board — Riassunto</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./02_framework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Framework di decisione (AMP/ASCO/CAP &amp; ESCAT)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03_glioma.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Glioma (GBM, IDH-wildtype) — Caso MTB</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./04_ovaio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ovaio (HGSOC) — Caso MTB</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05_breast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mammella — Casi MTB (HR+/HER2− e TNBC)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./07_fusion.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./08_Fusion2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./09_LLM_clinical_local.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Indice</h2>
+    <h2 id="toc-title">In questa pagina</h2>
    
   <ul>
-  <li><a href="#introduzione" id="toc-introduzione" class="nav-link active" data-scroll-target="#introduzione"><span class="header-section-number">8</span> Introduzione</a></li>
-  <li><a href="#caratteristiche-principali" id="toc-caratteristiche-principali" class="nav-link" data-scroll-target="#caratteristiche-principali"><span class="header-section-number">9</span> Caratteristiche principali</a></li>
-  <li><a href="#installazione" id="toc-installazione" class="nav-link" data-scroll-target="#installazione"><span class="header-section-number">10</span> Installazione</a>
+  <li><a href="#introduzione" id="toc-introduzione" class="nav-link active" data-scroll-target="#introduzione"><span class="header-section-number">1</span> Introduzione</a></li>
+  <li><a href="#caratteristiche-principali" id="toc-caratteristiche-principali" class="nav-link" data-scroll-target="#caratteristiche-principali"><span class="header-section-number">2</span> Caratteristiche principali</a></li>
+  <li><a href="#installazione" id="toc-installazione" class="nav-link" data-scroll-target="#installazione"><span class="header-section-number">3</span> Installazione</a>
   <ul class="collapse">
-  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">10.1</span> Citations</a></li>
-  <li><a href="#kallisto-fusions" id="toc-kallisto-fusions" class="nav-link" data-scroll-target="#kallisto-fusions"><span class="header-section-number">10.2</span> KALLISTO fusions</a></li>
+  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">3.1</span> Citations</a></li>
+  <li><a href="#kallisto-fusions" id="toc-kallisto-fusions" class="nav-link" data-scroll-target="#kallisto-fusions"><span class="header-section-number">3.2</span> KALLISTO fusions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -186,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></h1>
+<h1 class="title">RNAfusion</h1>
 </div>
 
 
@@ -203,14 +114,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduzione" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Introduzione</h1>
+<section id="introduzione" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduzione</h1>
 <p><strong>RNAfusion</strong> è una <a href="https://nf-co.re/">pipeline nf-core</a> per l’analisi di fusioni di RNA-seq.<br>
 Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, costruito con <a href="https://www.nextflow.io/">Nextflow</a> e containerizzato tramite Docker/Singularity.</p>
 <hr>
 </section>
-<section id="caratteristiche-principali" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Caratteristiche principali</h1>
+<section id="caratteristiche-principali" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Caratteristiche principali</h1>
 <ul>
 <li>Multipiattaforma e portabile<br>
 </li>
@@ -224,15 +135,15 @@ Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, cos
 </ul>
 <hr>
 </section>
-<section id="installazione" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Installazione</h1>
+<section id="installazione" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Installazione</h1>
 <h1>
 <picture> <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-rnafusion_logo_dark.png"> <img alt="nf-core/rnafusion" src="docs/images/nf-core-rnafusion_logo_light.png"> </picture>
 </h1>
 <p>Per installare ed eseguire la pipeline:</p>
 <p>```bash nextflow run nf-core/rnafusion -profile test,docker</p>
-<section id="citations" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="citations"><span class="header-section-number">10.1</span> Citations</h2>
+<section id="citations" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="citations"><span class="header-section-number">3.1</span> Citations</h2>
 <p>If you use nf-core/rnafusion for your analysis, please cite it using the following doi: <a href="https://doi.org/10.5281/zenodo.3946477">10.5281/zenodo.3946477</a></p>
 <p>An extensive list of references for the tools used by the pipeline can be found in the <a href="CITATIONS.md"><code>CITATIONS.md</code></a> file.</p>
 <p>You can cite the <code>nf-core</code> publication as follows:</p>
@@ -242,8 +153,8 @@ Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, cos
 <p><em>Nat Biotechnol.</em> 2020 Feb 13. doi: <a href="https://dx.doi.org/10.1038/s41587-020-0439-x">10.1038/s41587-020-0439-x</a>.</p>
 </blockquote>
 </section>
-<section id="kallisto-fusions" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="kallisto-fusions"><span class="header-section-number">10.2</span> KALLISTO fusions</h2>
+<section id="kallisto-fusions" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="kallisto-fusions"><span class="header-section-number">3.2</span> KALLISTO fusions</h2>
 <p>kallisto can now find reads which span potential fusion breakpoints. The quant mode adds a –fusion flag which identifies read pairs involved in fusions and writes output to fusion.txt, this file is then processed by pizzly for downstream analysis.</p>
 
 
@@ -668,18 +579,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="./05_breast.html" class="pagination-link" aria-label="Mammella — Casi MTB (HR+/HER2− e TNBC)">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mammella — Casi MTB (HR+/HER2− e TNBC)</span></span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./08_Fusion2.html" class="pagination-link" aria-label="SplitFusion — Introduzione e Guida Rapida">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 
