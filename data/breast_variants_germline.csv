@@ -1,0 +1,3 @@
+case,gene,variant_cDNA,variant_protein,classification,reportable,note
+TNBC,BRCA1,c.5266dupC,p.Gln1756Profs*74,Pathogenic,Yes,Recommend germline testing and genetic counseling.
+HRpos_HER2neg,—,—,—,No pathogenic variants suspected,N/A,Germline per storia personale/familiare.

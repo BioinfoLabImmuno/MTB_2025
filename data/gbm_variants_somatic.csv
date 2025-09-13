@@ -1,0 +1,8 @@
+gene,variant_cDNA,variant_protein,effect,vaf,depth,copy_number,tier_amp_ascocap,escat,evidence_summary
+EGFR,EGFRvIII (ex2-7 del),p.Glu6_Ala273del,Oncogenic activation,0.21,450,12,Tier IA (biomarker),II-B,Common GBM driver; investigational EGFRvIII-directed trials.
+EGFR,amplicon,—,Amplification,,,12,Tier IA (biomarker),II-B,High-level amplification; supports EGFR-targeted trial eligibility.
+TERT,c.-124C>T (C228T),promoter,Promoter activation,0.28,600,,Tier IIIC,Not ranked,Prognostic; not directly actionable.
+PTEN,c.389G>A,p.R130Q,Loss-of-function,0.34,520,loss,Tier IIC,III,PI3K/AKT pathway activation; no approved targeted therapy in GBM.
+CDKN2A/B,homozygous deletion,—,Loss-of-function,,,0 copies,Tier IIIC,III,Cell-cycle deregulation; may inform CDK pathway trial eligibility.
+NF1,c.2033C>A,p.S678*,Truncating,0.12,480,,Tier IIIC,III,RAS/MAPK activation; occasional MEK inhibitor trials.
+PDGFRA,gain,—,Copy number gain,,,4,Tier IIIC,III,May expand RTK pathway trial options.

@@ -1,0 +1,109 @@
+---
+title: "Molecular Tumor Board — Riassunto"
+format: html
+toc: true
+number-sections: false
+---
+
+# Introduzione
+
+I **Molecular Tumor Boards (MTB)** sono strumenti chiave della medicina di precisione.  
+Permettono di tradurre i risultati del profilo molecolare (NGS e altri test) in raccomandazioni cliniche personalizzate.
+
+> MTB = ponte tra dati molecolari complessi e decisione terapeutica.
+
+---
+
+# Punti chiave
+
+::: callout-note
+**Take home message**  
+- Gli MTB sono elementi essenziali dell’oncologia di precisione.  
+- Le raccomandazioni devono basarsi sul miglior livello di evidenza disponibile.  
+- È importante incorporare sistemi standardizzati di classificazione dell’actionability (es. ESCAT, OncoKB).
+:::
+
+---
+
+# Obiettivi di un MTB
+
+- Offrire approccio multidisciplinare per strategie terapeutiche basate sul profilo molecolare.  
+- Identificare target trattabili e suggerire:  
+  - uso *on-label*  
+  - uso *off-label*  
+  - accesso a *trial clinici*  
+- Supportare diagnosi in tumori rari o di origine sconosciuta.  
+- Identificare varianti germinali pro-oncogeniche di rilievo.
+
+---
+
+# Casi tipici discussi
+
+- Pazienti già trattati con terapie standard e in cerca di ulteriori opzioni.  
+- Tumori rari, spesso privi di linee guida consolidate.  
+- CUP (cancers of unknown primary).  
+- Valutazione di resistenze emergenti o evoluzione clonale tramite biopsie longitudinali.
+
+---
+
+# Pannelli e diagnostica molecolare
+
+- Uso diffuso di pannelli NGS standardizzati → comparabilità e riproducibilità.  
+- Pannelli personalizzati possibili ma più difficili da condividere tra istituzioni.  
+- Approcci combinati: hotspot panel veloci + NGS estesi, RNA-seq, IHC/ISH.  
+- Futuro: crescente integrazione di **Whole Exome Sequencing (WES)** e approcci multi-omici.
+
+---
+
+# Composizione di un MTB
+
+- Oncologi medici  
+- Patologi  
+- Biologi molecolari  
+- Genetisti clinici  
+- Bioinformatici  
+- Altri specialisti a seconda del caso  
+
+---
+
+# Interpretazione delle alterazioni
+
+- Si basa su evidenze aggiornate e database internazionali:  
+  - **ESCAT (ESMO)** → 6 livelli di actionability  
+  - **OncoKB (USA)** → 4 livelli + resistenze + FDA status  
+- Revisione multilevel con pipeline bioinformatiche.  
+- Possibile segnalazione di trial clinici rilevanti (NCT number).  
+
+---
+
+# Report di un MTB
+
+Il referto deve contenere:  
+- dati anagrafici e clinici essenziali  
+- referti istologici e molecolari  
+- interpretazione in contesto clinico  
+- raccomandazione terapeutica + trial disponibili  
+- eventuali mutazioni germinali → rinvio a genetica medica  
+
+---
+
+# Prospettive future
+
+- **Raccolta strutturata dei dati** (molecolari, clinici, outcome) per collaborazione e scambio tra istituzioni.  
+- **Nuove tecnologie** → integrazione di multi-omica e profilazione funzionale.  
+- MTB come hub interdisciplinari per trasferire rapidamente innovazioni scientifiche alla pratica clinica.
+
+---
+
+# Riferimento
+
+Boos L, Wicki A. *The molecular tumor board—a key element of precision oncology*.  
+Memo. 2024;17:190–193. doi:[10.1007/s12254-024-00977-7](https://doi.org/10.1007/s12254-024-00977-7) :contentReference[oaicite:1]{index=1}
+
+
+## Requisiti
+- **R ≥ 4.3** (o Python, ma gli esempi usano R)
+- **Quarto CLI** (verifica con `quarto check`)
+- Pacchetti R: `tidyverse`, `readr`, `dplyr`, `gt`, `gtsummary`
+
+

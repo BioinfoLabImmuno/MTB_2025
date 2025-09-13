@@ -1,0 +1,34 @@
+---
+title: "Mammella — Casi MTB (HR+/HER2− e TNBC)"
+---
+
+```{r}
+library(readr); library(dplyr); library(gt)
+som <- read_csv("data/breast_variants_somatic.csv")
+germ <- read_csv("data/breast_variants_germline.csv")
+```
+
+### Sintesi clinica
+```{{=include}} templates/clinical_breast.md
+
+### HR+/HER2− — Varianti di interesse
+```{r}
+som %>% filter(case=="HRpos_HER2neg") %>% select(-case) %>% 
+  gt() |> tab_caption("HR+/HER2− — Varianti somatiche")
+```
+
+### TNBC — Varianti di interesse
+```{r}
+som %>% filter(case=="TNBC") %>% select(-case) %>% 
+  gt() |> tab_caption("TNBC — Varianti somatiche")
+```
+
+### Germinale
+```{r}
+gt(germ) |> tab_caption("Mammella — Varianti germinali")
+```
+
+::: callout-note
+- *PIK3CA* **p.H1047R** → considerare **alpelisib** + ET in HR+/HER2−.
+- *BRCA1* patogena (TNBC) → **PARP**; invio a genetica medica.
+:::

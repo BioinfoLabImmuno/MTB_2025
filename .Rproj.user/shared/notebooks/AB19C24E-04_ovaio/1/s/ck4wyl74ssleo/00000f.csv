@@ -1,0 +1,38 @@
+"0","library(readr); library(dplyr); library(gt)"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"2","Registered S3 methods overwritten by 'htmltools':
+  method               from         
+  print.html           tools:rstudio
+  print.shiny.tag      tools:rstudio
+  print.shiny.tag.list tools:rstudio
+"
+"0","som <- read_csv(""data/ovary_variants_somatic.csv"")"
+"2","[1mRows: [22m[34m3[39m [1mColumns: [22m[34m10[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (7): gene, variant_cDNA, variant_protein, effect, tier_amp_asco...
+[32mdbl[39m (3): vaf, depth, copy_number"
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."
+"0","germ <- read_csv(""data/ovary_variants_germline.csv"")"
+"2","[1mRows: [22m[34m1[39m [1mColumns: [22m[34m6[39m"
+"2","[36m──[39m [1mColumn specification[22m [36m───────────────────────────────────────────────[39m
+[1mDelimiter:[22m "",""
+[31mchr[39m (6): gene, variant_cDNA, variant_protein, classification, repor..."
+"2","
+[36mℹ[39m Use `spec()` to retrieve the full column specification for this data.
+[36mℹ[39m Specify the column types or set `show_col_types = FALSE` to quiet this message."

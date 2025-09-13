@@ -1,0 +1,31 @@
+---
+title: "Glioma (GBM, IDH-wildtype) — Caso MTB"
+---
+
+```{r}
+library(readr); library(dplyr); library(gt)
+som <- read_csv("data/gbm_variants_somatic.csv")
+germ <- read_csv("data/gbm_variants_germline.csv")
+```
+
+### Sintesi clinica
+```{{=include}} templates/clinical_gbm.md
+
+### Varianti somatiche
+```{r}
+gt(som) |> tab_caption("GBM-01 — Somatic variants (tiering AMP/ASCO/CAP, ESCAT)")
+```
+
+### Germinale (ricerca)
+```{r}
+gt(germ) |> tab_caption("GBM-01 — Variant-like segnali germinali (non validati, da confermare)")
+```
+
+::: callout-warning
+**Caveat tumor-only** — eventuali VUS non vanno riportati clinicamente; serve conferma su sangue/saliva in caso di sospetto germinale.
+:::
+
+### Discussione
+- Re-resezione con **carmustina wafer** vs alternative sistemiche.
+- Trial *EGFR/RTK* per **EGFR amp + vIII**; *PI3K/AKT* meno promettente (PTEN LOF).
+- IO: CPS ~10, **MSS/TMB-low** — utility limitata, considerare solo in trial.

@@ -1,0 +1,51 @@
+{
+    "sources": [
+        {
+            "author": [
+                {
+                    "family": "Li",
+                    "given": "MM"
+                },
+                {
+                    "literal": "others"
+                }
+            ],
+            "container-title": "J Mol Diagn",
+            "id": "AMP2017",
+            "issued": {
+                "date-parts": [
+                    [
+                        2017
+                    ]
+                ]
+            },
+            "title": "Standards and guidelines for the interpretation and reporting of sequence variants in cancer",
+            "type": "article-journal"
+        },
+        {
+            "author": [
+                {
+                    "family": "Mateo",
+                    "given": "J"
+                },
+                {
+                    "literal": "others"
+                }
+            ],
+            "container-title": "Ann Oncol",
+            "id": "ESCAT2019",
+            "issued": {
+                "date-parts": [
+                    [
+                        2019
+                    ]
+                ]
+            },
+            "title": "ESMO scale for clinical actionability of molecular targets (ESCAT)",
+            "type": "article-journal"
+        }
+    ],
+    "project_biblios": [
+        "references.bib"
+    ]
+}

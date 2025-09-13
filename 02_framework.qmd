@@ -1,0 +1,16 @@
+---
+title: "Framework di decisione (AMP/ASCO/CAP & ESCAT)"
+---
+
+Questo capitolo riassume un *framework pragmatico* per passare dai **risultati NGS** alle **decisioni cliniche**.
+
+1. **Qualità e contesto del dato**
+   - Copertura, purezza, coerenza istologica, metodo (tumor-only vs matched).
+2. **Tiering** (AMP/ASCO/CAP): Tier I–IV per varianti, amplificazioni, fusioni.
+3. **Actionability clinica** (ESCAT): Livelli I–V in base alla forza dell'evidenza.
+4. **Trade-off**: beneficio atteso, tossicità, logistica, preferenze del paziente.
+5. **Documentazione**: raccomandazione primaria, alternative, trial, follow-up.
+
+::: callout-note
+**Aleatoric vs Epistemic** — Dichiarare l'incertezza intrinseca e quella dovuta a limiti del modello o del dato (es. tumor-only).
+:::

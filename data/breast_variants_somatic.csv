@@ -1,0 +1,4 @@
+case,gene,variant_cDNA,variant_protein,effect,vaf,depth,copy_number,tier_amp_ascocap,escat,evidence_summary
+HRpos_HER2neg,PIK3CA,c.3140A>G,p.H1047R,Activating,0.31,480,,Tier IA,I-A,Enables PI3K inhibitor (alpelisib) with endocrine therapy.
+HRpos_HER2neg,ESR1,c.1610A>C,p.Y537S,Activating,0.12,420,,Tier IIA,II,Resistance marker; SERD consideration.
+TNBC,BRCA1,c.5266dupC,p.Gln1756Profs*74,Pathogenic (LOF),0.44,500,,Tier IA,I-A,PARP inhibitor eligibility in germline carriers.

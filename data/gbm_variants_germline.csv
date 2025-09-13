@@ -1,0 +1,3 @@
+gene,variant_cDNA,variant_protein,classification,reportable,note
+CHEK2,c.470T>C,p.I157T,VUS (research-only),No,Detected on tumor-only; do not return clinically without matched normal.
+DPYD,none,—,No pathogenic variants,N/A,No fluoropyrimidine toxicity alleles observed.

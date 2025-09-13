@@ -1,0 +1,4 @@
+gene,variant_cDNA,variant_protein,effect,vaf,depth,copy_number,tier_amp_ascocap,escat,evidence_summary
+BRCA1,c.68_69delAG,p.Glu23Valfs*17,Pathogenic (LOF),0.46,520,,Tier IA,I-A,PARP inhibitor sensitivity (frontline/maintenance) in HRD.
+TP53,c.743G>A,p.R248Q,Pathogenic,0.62,600,,Tier I,Contextual,Foundational HGSOC driver.
+CCNE1,amplification,—,Amplification,,,7,Tier IIC,III,May impact chemo-sensitivity; PARP benefit may vary if CCNE1-high.
