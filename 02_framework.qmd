@@ -6,8 +6,9 @@ Questo capitolo riassume un *framework pragmatico* per passare dai **risultati N
 
 1. **Qualità e contesto del dato**
    - Copertura, purezza, coerenza istologica, metodo (tumor-only vs matched).
-2. **Tiering** (AMP/ASCO/CAP): Tier I–IV per varianti, amplificazioni, fusioni.
-3. **Actionability clinica** (ESCAT): Livelli I–V in base alla forza dell'evidenza.
+2. **Tiering** (AMP/ASCO/CAP): Tier I–IV per varianti, amplificazioni, fusioni.[Tiering](https://genomoncology.com/blog/somatic-variant-classification-a-welcome-update-to-the-amp-asco-cap-guidelines/)
+3. **Actionability clinica** (ESCAT): Livelli I–V in base alla forza dell'evidenza.[ESCAT — ESMO Scale for Clinical Actionability of Molecular Targets](https://www.oncopedia.wiki/contributions/escat-esmo-scale-for-clinical-actionability-of-molecular-targets)
+
 4. **Trade-off**: beneficio atteso, tossicità, logistica, preferenze del paziente.
 5. **Documentazione**: raccomandazione primaria, alternative, trial, follow-up.
 

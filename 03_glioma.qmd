@@ -26,6 +26,16 @@ gt(germ) |> tab_caption("GBM-01 — Variant-like segnali germinali (non validati
 :::
 
 ### Discussione
-- Re-resezione con **carmustina wafer** vs alternative sistemiche.
-- Trial *EGFR/RTK* per **EGFR amp + vIII**; *PI3K/AKT* meno promettente (PTEN LOF).
-- IO: CPS ~10, **MSS/TMB-low** — utility limitata, considerare solo in trial.
+- Alternative sistemiche.
+- Trials
+
+
+| **Biomarker / Profilo**          | **Farmaco / Strategia**                                        | **Setting**                     | **Evidenza / Note 2025**                                                       |
+| -------------------------------- | -------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------------------ |
+| **EGFR amp + vIII**              | Trial con inibitori EGFR/RTK                                   | Recidiva / arruolamento trial   | Opzione più promettente se disponibile trial; nessun standard consolidato.     |
+| **MET (amp / exon14 / fusioni)** | Tepotinib, Capmatinib, Vebreltinib (solo in trial)             | Recidiva con alterazione MET    | Segnali clinici di beneficio (casi e basket trial). Priorità alta se presente. |
+| **ALK / ROS1 / NTRK fusioni**    | Lorlatinib (ALK/ROS1), Entrectinib / Larotrectinib (ROS1/NTRK) | Recidiva; preferibilmente trial | Risposte documentate in case report. Uso sperimentale o off-label selezionato. |
+| **Nessun target disponibile**    | **Regorafenib**                                                | Recidiva non eleggibile a trial | Efficacia e tollerabilità confermate; opzione sistemica di riferimento.        |
+| **Edema / sintomi severi**       | **Bevacizumab**                                                | Palliativo / in combinazione    | Controllo sintomi e riduzione steroidi; non migliora OS.                       |
+| **IO (CPS\~10, MSS, TMB-low)**   | Anti-PD-1/PD-L1 (solo trial)                                   | Sperimentale                    | Razionale debole in assenza di ipermutazione; non standard.                    |
+
