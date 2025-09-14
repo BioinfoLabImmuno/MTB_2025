@@ -1,0 +1,7 @@
+##fileformat=VCFv4.2
+##source=PanelNGS
+#CHROM  POS     ID  REF ALT QUAL    FILTER  INFO
+7       55249071    .   G   A   .   PASS    GENE=EGFR;MUT=L858R
+2       29443655    .   G   T   .   PASS    GENE=ALK;MUT=FUSION
+12      25398285    .   G   A   .   PASS    GENE=KRAS;MUT=G12D
+17      43071077    .   C   T   .   PASS    GENE=BRCA1;MUT=LOF

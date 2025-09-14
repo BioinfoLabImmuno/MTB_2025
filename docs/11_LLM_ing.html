@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Prof.&nbsp;Ettore Domenico CAPOLUONGO / Dr.&nbsp;Maurizio Polano">
+<meta name="author" content="">
 
-<title>Molecular Tumor Board — Simulation Handbook</title>
+<title>10&nbsp; Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I – Molecular Tumor Board — Simulation Handbook</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01_avvio.html" rel="next">
+<link href="./09_LLM_clinical_local.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./11_LLM_ing.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
@@ -92,7 +92,7 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
@@ -109,7 +109,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></span></a>
   </div>
 </li>
@@ -163,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11_LLM_ing.html" class="sidebar-item-text sidebar-link">
+  <a href="./11_LLM_ing.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
   </div>
 </li>
@@ -177,37 +177,30 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Indice</h2>
    
   <ul>
-  <li><a href="#molecular-tumor-board-simulation-handbook" id="toc-molecular-tumor-board-simulation-handbook" class="nav-link active" data-scroll-target="#molecular-tumor-board-simulation-handbook">Molecular Tumor Board — Simulation Handbook</a>
+  <li><a href="#report-clinico-escat" id="toc-report-clinico-escat" class="nav-link active" data-scroll-target="#report-clinico-escat"><span class="header-section-number">11</span> 🧬 Report Clinico ESCAT</a>
   <ul class="collapse">
-  <li><a href="#come-usare-questo-corso" id="toc-come-usare-questo-corso" class="nav-link" data-scroll-target="#come-usare-questo-corso">Come usare questo corso</a></li>
-  <li><a href="#struttura-del-libro" id="toc-struttura-del-libro" class="nav-link" data-scroll-target="#struttura-del-libro">Struttura del libro</a></li>
+  <li><a href="#esempio-codice" id="toc-esempio-codice" class="nav-link" data-scroll-target="#esempio-codice"><span class="header-section-number">11.1</span> Esempio codice</a></li>
   </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Molecular Tumor Board — Simulation Handbook</h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-body">
+<div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Autore/Autrice</div>
-    <div class="quarto-title-meta-contents">
-             <p>Prof.&nbsp;Ettore Domenico CAPOLUONGO / Dr.&nbsp;Maurizio Polano </p>
-          </div>
-  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Data di Pubblicazione</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">30 agosto 2025</p>
+      <p class="date">11 settembre 2025</p>
     </div>
   </div>
   
@@ -219,62 +212,47 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="molecular-tumor-board-simulation-handbook" class="level1">
-<h1>Molecular Tumor Board — Simulation Handbook</h1>
-<p>Benvenuti nel <strong>Molecular Tumor Board — Simulation Handbook</strong>, un corso/libro interattivo pensato per esercitarsi con workflow, interpretazione e comunicazione dei risultati in ambito MTB.</p>
-<p>Il focus è su tre aree:</p>
-<ul>
-<li><strong>Glioma (GBM, IDH-wildtype)</strong> — re-resezione e trial EGFR/RTK.<br>
-</li>
-<li><strong>Ovaio (HGSOC)</strong> — HRR/BRCA, HRD e uso dei PARP in prima/seconda linea.<br>
-</li>
-<li><strong>Mammella</strong> — due esempi: HR+/HER2− con <em>PIK3CA</em> e TNBC con <em>BRCA1</em>.</li>
-</ul>
-<blockquote class="blockquote">
-<p>I dataset sono <strong>fittizi a scopo didattico</strong>. Gli script mostrano come leggere tabelle di varianti, visualizzarle con <code>gt</code>, e strutturare il ragionamento secondo <strong>AMP/ASCO/CAP</strong> ed <strong>ESCAT</strong>.</p>
-</blockquote>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="report-clinico-escat" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> 🧬 Report Clinico ESCAT</h1>
+<p>Analisi di mutazioni da referto NGS secondo la scala <strong>ESCAT</strong>, usando modelli Ollama (Llama3, DeepSeek, Meditron).</p>
+<p><img src="images/clipboard-626231529.png" class="img-fluid"></p>
+<p>Possiamo creare un modello:</p>
+<p>Creare ModelFile:</p>
+<pre class="text"><code>
+#| #| eval: false
+
+FROM llama3:latest
+SYSTEM """
+You are an MTB molecular reporting assistant. Tasks:
+A) Normalize variants to HGVS (cDNA/protein) when possible.
+B) Classify each variant with: ESCAT class (I–IV/NA), level (IA/IB/IC), biomarker type (predictive/prognostic/diagnostic), and status (somatic/germline if deducible).
+C) If ESCAT I: list standard therapy; else “non standard”.
+D) Add a **Contesto-dipendente** flag if evidence depends on HRD/MSI/TMB/fusions, etc.
+E) Output a markdown table + a final checklist (tumor type, setting, HRD, MSI, TMB, guidelines).
+Always be concise and deterministic; if info is missing, state assumptions clearly.
+"""</code></pre>
+<pre class="text"><code>#| eval: false
+
+ ollama create biomt -f ModelFile</code></pre>
+<hr>
+<section id="esempio-codice" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="esempio-codice"><span class="header-section-number">11.1</span> Esempio codice</h2>
+<pre class="text"><code>#| eval: false
+ollama run biomt
+
+&gt; &gt; &gt; Agisci come revisore NGS per MTB. ... Input: ... #Fusion: RET_ENST00000355710.3:intron:11\|-chr10:43612027\_\_\_CCDC6_ENST0000026 ... 3102.6:exon:1\|+chr10:61665883 ... ... Produci: tabella e checklist come da istruzioni. Includi ESCAT, livello, ter ... apia standard se I, e flag “Contesto-dipendente”. ... Here is the output:
+
+**Variant Report** \| Variant \| ESCAT Class \| Level \| Biomarker Type \| Status \| Therapy Standard \| Contexto-dipendente \| \| --- \| --- \| --- \| --- \| --- \| --- \| --- \| \| RET_ENST00000355710.3:intron:11\|-chr10:43612027\_**CCDC6_ENST00000263102.6RET_ENST00000355710.3:intron:11\|-chr10:43612027**\_CCDC6_ENST00000263102.6:exon:1\|+chr10:61665883 \| III \| NA \| somatic \| non standard \| \*\* \|
+
+**Checklist** \* Tumor type: unknown \* Setting: unknown \* HRD: unknown \* MSI: unknown \* TMB: unknown \* Guidelines: N/A
+
+Note: The variant is a fusion, which is classified as ESCAT III. As it's not a coding region change, biomarker type is NA (not applicable). The status is somatic, and the therapy standard is non-standard. The **Contexto-dipendente** flag indicates that the evidence depends on the presence of HRD/MSI/TMB/fusions, etc.</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/clipboard-1374803842.png" class="img-fluid figure-img"></p>
+<figcaption><img src="images/clipboard-196437108.png" class="img-fluid figure-img"></figcaption>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-Nota
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Target</strong>: specializzandi, biologi molecolari, bioinformatici e clinici interessati a MTB.<br>
-<strong>Prerequisiti minimi</strong>: conoscenze di base di NGS, varianti somatiche e RNA-seq.</p>
-</div>
-</div>
-<section id="come-usare-questo-corso" class="level2">
-<h2 class="anchored" data-anchor-id="come-usare-questo-corso">Come usare questo corso</h2>
-<ul>
-<li>Naviga i capitoli dal <strong>menu laterale</strong> o dalla <strong>Table of Contents</strong>.<br>
-</li>
-<li>Ogni capitolo adotta una struttura coerente: <em>Obiettivi → Dati/Metodi → Analisi → Output/Report → Riferimenti</em>.<br>
-</li>
-<li>Box informativi segnalano <em>Suggerimenti pratici</em>, <em>Pitfall comuni</em> e <em>Checklist</em> operative.</li>
-</ul>
-</section>
-<section id="struttura-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="struttura-del-libro">Struttura del libro</h2>
-<p>I capitoli principali includono:</p>
-<ul>
-<li><p><strong>Avvio</strong>: panoramica del setup e flusso di lavoro base.<br>
-</p></li>
-<li><p><strong>Framework</strong>: principi, standard e raccomandazioni per MTB.<br>
-</p></li>
-<li><p><strong>Casi clinici</strong>: <em>Glioma</em>, <em>Ovaio</em>, <em>Breast</em>.<br>
-</p></li>
-<li><p><strong>Templates</strong>: modelli di report, checklist e tabelle riutilizzabili.<br>
-</p></li>
-<li><p><strong>Fusion</strong>: moduli dedicati all’analisi di fusioni geniche da RNA-seq.</p></li>
-<li><p>Use of <strong>LLM</strong> for clinical interpretation</p></li>
-</ul>
-<blockquote class="blockquote">
-<p>Nota: la struttura dei capitoli è stata resa omogenea per facilitare studio e consultazione.</p>
-</blockquote>
 
 
 </section>
@@ -698,13 +676,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-body">
+<nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./09_LLM_clinical_local.html" class="pagination-link" aria-label="Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01_avvio.html" class="pagination-link" aria-label="Molecular Tumor Board — Riassunto">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Molecular Tumor Board — Riassunto</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

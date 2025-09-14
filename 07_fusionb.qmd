@@ -1,0 +1,47 @@
+---
+title:  "CTAT Fusion Toolkit — Tutorial (STAR-Fusion, FusionInspector, Trinity)"
+---
+
+## Panoramica
+
+Il **Trinity Cancer Transcriptome Analysis Toolkit (CTAT)** offre un flusso completo per l’identificazione e la caratterizzazione di **fusion transcript** da RNA-seq, sfruttando:
+
+-   **STAR-Fusion** (predizione di fusioni),
+-   **FusionInspector** (validazione *in silico* e visualizzazioni),
+-   **Trinity** (ricostruzione *de novo* di trascritti di fusione),
+-   annotazioni e stima dell’impatto sulle **regioni codificanti**.
+
+### Flusso in breve
+
+1.  **STAR-Fusion** identifica fusioni candidate da allineamenti discordanti.\
+2.  **FusionInspector** valida *in silico* riallineando su contig di fusione e intero genoma; opzionalmente avvia **Trinity** per ricostruzioni *de novo*.\
+3.  Annotazione e **coding effect** (in-frame / frameshift, domini, ecc.).
+
+::: callout-tip
+**Suggerimento** — Per test locali veloci, usa i dati del **minigenome** forniti nel tutorial CTAT.
+:::
+
+## Dati del tutorial
+
+**Genome**\
+- `minigenome.fa` — genoma minimizzato (\~750 geni)\
+- `minigenome.gtf` — annotazioni trascrittomiche
+
+**RNA-seq**\
+- `rnaseq_1.fastq.gz` — read 1 (left)\
+- `rnaseq_2.fastq.gz` — read 2 (right)
+
+**Meta**\
+- `CTAT_HumanFusionLib.mini.dat.gz` — mini libreria di annotazioni fusion
+
+Per ottenere i dati:
+
+\`\`\`bash \# Opzione: clona il repo del tutorial git clone <https://github.com/STAR-Fusion/STAR-Fusion-Tutorial.git> cd STAR-Fusion-Tutorial
+
+## NEXFLOW FUSION
+
+Fusion pipeline\[<https://nf-co.re/rnafusion/3.0.2>\] versione 3.0,2
+
+Una pipeline di analisi bioinformatica *best-practice* per il sequenziamento dell’RNA, composta da diversi strumenti progettati per rilevare e visualizzare i geni di fusione. I risultati provenienti da un massimo di cinque strumenti di rilevamento delle fusioni vengono generati e successivamente aggregati, in particolare in un documento PDF di visualizzazione, in un file di raccolta dati in formato VCF e in report HTML e TSV.
+
+

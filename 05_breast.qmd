@@ -6,11 +6,11 @@ title: "Mammella — Casi MTB (HR+/HER2− e TNBC)"
 #| message: false
 #| warning: false
 library(readr); library(dplyr); library(gt); library(stringr); library(tidyr)
+
 # ===== Helpers per robustezza =====
 standardize_cols <- function(df) {
-  # mappa: target -> possibili varianti del nome
   mapping <- list(
-    case                = c("case","Case","cohort","subset"),
+    case                = c("case","Case","cohort","subset","Group","group"),
     gene                = c("gene","Gene","Hugo_Symbol","Symbol"),
     variant             = c("variant","Variant","cDNA","cdna_change","hgvsc","hgvsc_short","c_change","mutation","c_variant","c_hgvs"),
     protein_change      = c("protein_change","Protein","hgvsp","hgvsp_short","p_change","aa_change","p_hgvs","protein"),
@@ -24,7 +24,7 @@ standardize_cols <- function(df) {
     msi_status          = c("msi_status","MSI","msi","mismatch_repair"),
     tmb                 = c("tmb","TMB","tumor_mutational_burden","mutational_burden"),
     her2_ihc            = c("her2_ihc","HER2_IHC","ihc_her2"),
-    her2_isHISH         = c("her2_ish","HER2_ISH","fish_her2"),
+    her2_ish            = c("her2_ish","HER2_ISH","fish_her2"),
     notes               = c("notes","note","comment","comments","interpretation","report_note")
   )
   for (tgt in names(mapping)) {
@@ -35,18 +35,72 @@ standardize_cols <- function(df) {
 }
 
 # carica dati
-som  <- read_csv("data/breast_variants_somatic.csv", show_col_types = FALSE) |> standardize_cols()
+som1  <- read_csv("data/breast_variants_somatic.csv", show_col_types = FALSE) 
+som <- som1 %>%
+  rename(
+    variant         = variant_cDNA,
+    protein_change  = variant_protein,
+    tier_amp_asco_cap = tier_amp_ascocap,   # corregge il typo
+    notes           = evidence_summary
+  ) %>%
+  mutate(
+    VAF        = suppressWarnings(as.numeric(vaf)),
+    Copertura  = suppressWarnings(as.numeric(depth))
+  )
+
+# (opzionale) se vuoi tenere anche le copy-number in tabella
+# le rinominiamo in "CN" per chiarezza:
+if ("copy_number" %in% names(som)) {
+  som <- som %>% rename(CN = copy_number)
+}
+
+# ---- FUNZIONE TABELLA ROBUSTA ----
+mk_table <- function(df, caption) {
+  # seleziona solo le colonne che esistono
+  disp <- df %>%
+    select(any_of(c(
+      "gene","variant","protein_change","effect","CN",
+      "escat","tier_amp_asco_cap","VAF","Copertura","notes"
+    ))) %>%
+    rename(
+      Gene      = gene,
+      Variante  = variant,
+      Proteina  = protein_change,
+      Effetto   = effect,
+      ESCAT     = escat,
+      Tier      = tier_amp_asco_cap,
+      Note      = notes
+    )
+
+  gt(disp) |>
+    tab_caption(caption) |>
+    fmt_number(columns = any_of(c("VAF")), decimals = 3) |>
+    tab_spanner(label = "Qualità", columns = intersect(c("VAF","Copertura"), names(disp))) |>
+    tab_source_note(md("**Nota**: VAF/Copertura mostrate solo se presenti."))
+}
+
+som<-som |> standardize_cols()
+
 germ <- read_csv("data/breast_variants_germline.csv", show_col_types = FALSE) |> standardize_cols()
 
-# coerenza tipi numerici
+# coerenza tipi numerici dove esistono
 som <- som |>
   mutate(vaf_num = suppressWarnings(as.numeric(vaf)),
          depth_num = suppressWarnings(as.numeric(depth)),
          tmb_num = suppressWarnings(as.numeric(tmb)),
          pd_l1_cps_num = suppressWarnings(as.numeric(pd_l1_cps)))
 
-# utility per rendering tabella pulita
+germ <- germ %>%
+  # crea le colonne numeriche solo se quelle originali esistono
+  mutate(across(any_of(c("vaf","depth")),
+                ~ suppressWarnings(as.numeric(.x)),
+                .names = "{.col}_num"))  #suppressWarnings(as.numeric(depth)) else NA_real_)
+
+# utility per rendering tabella pulita (funziona anche se VAF/Depth non esistono)
 mk_table <- function(df, caption) {
+  # assicura colonne opzionali
+  if (!("vaf_num" %in% names(df)))   df$vaf_num <- NA_real_
+  if (!("depth_num" %in% names(df))) df$depth_num <- NA_real_
   disp <- df |>
     select(any_of(c("gene","variant","protein_change","effect","classification",
                     "escat","tier_amp_asco_cap","vaf_num","depth_num","notes"))) |>
@@ -57,7 +111,7 @@ mk_table <- function(df, caption) {
     tab_caption(caption) |>
     fmt_number(columns = c("VAF"), decimals = 3) |>
     tab_spanner(label = "Qualità", columns = c("VAF","Copertura")) |>
-    tab_source_note(md("**Nota**: VAF e copertura sono riportate solo se disponibili nei file sorgente."))
+    tab_source_note(md("**Nota**: VAF e copertura sono riportate solo se presenti nei file sorgente."))
 }
 ```
 

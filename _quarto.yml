@@ -16,6 +16,7 @@ book:
     - 07_fusion.qmd
     - 08_Fusion2.qmd
     - 09_LLM_clinical_local.qmd
+    - 11_LLM_ing.qmd
 
 
 format:

@@ -51,7 +51,7 @@ Questo materiale ha finalità formative/informative e **non** sostituisce consul
 ### Esempio di tabella (input)
 
 | Gene | Variante cDNA | Variante proteina | Effetto | VAF | CopyNumber | Tumore |
-|:---|:---|:---|:---|---:|---:|:---|
+|:----------|:----------|:----------|:----------|----------:|----------:|:----------|
 | BRCA1 | c.68_69delAG | p.Glu23Valfs\*17 | Frameshift (LOF) | 0.46 | NA | Ovarico HGS |
 | TP53 | c.743G\>A | p.R248Q | Missenso patogena | 0.62 | NA | Ovarico HGS |
 | CCNE1 | — | — | Amplificazione (CN≈7) | NA | 7 | Ovarico HGS |
@@ -103,7 +103,7 @@ Elenca per ciascun biomarcatore classificato come ESCAT I:
 **Output atteso (esempio illustrativo)**
 
 | Gene | Variante | ESCAT | Terapia standard | Contesto tumore | Nota evidence |
-|:---|:---|:---|:---|:---|:---|
+|:-----------|:-----------|:-----------|:-----------|:-----------|:-----------|
 | BRCA1 | c.68_69delAG (p.Glu23Valfs\*17) | **I-A** | PARP-inibitori (maintenance post-response)\*\* | Ovarico HGS | Trial pivotal 1L; linee guida europee confermano |
 | TP53 | p.R248Q | Contextual | — | Ovarico HGS | Driver ubiquo; non target standard |
 | CCNE1 | Amplificazione (CN≈7) | II–III (non standard) | — | Ovarico HGS | Associa resistenza al platino; target sperimentali |
@@ -126,6 +126,8 @@ Elenca per ciascun biomarcatore classificato come ESCAT I:
 Restituisci solo una tabella con le colonne: Gene | Variante | ESCAT (IA/IB/IC/NA) | Terapia standard | Contesto | Fonte (sigla+anno).
 Limita le fonti a 1–2 voci sintetiche.
 ```
+
+![](images/clipboard-1684551118.png)
 
 ## Snippet: evidenze e rischi
 

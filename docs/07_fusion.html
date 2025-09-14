@@ -186,13 +186,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08_Fusion2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Genefuse</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09_LLM_clinical_local.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11_LLM_ing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
   </div>
 </li>
     </ul>
@@ -205,12 +211,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Indice</h2>
    
   <ul>
-  <li><a href="#introduzione" id="toc-introduzione" class="nav-link active" data-scroll-target="#introduzione"><span class="header-section-number">8</span> Introduzione</a></li>
+  <li><a href="#introduzione" id="toc-introduzione" class="nav-link active" data-scroll-target="#introduzione"><span class="header-section-number">8</span> Introduzione</a>
+  <ul class="collapse">
+  <li><a href="#arsenale-di-strumenti-a-disposizione" id="toc-arsenale-di-strumenti-a-disposizione" class="nav-link" data-scroll-target="#arsenale-di-strumenti-a-disposizione"><span class="header-section-number">8.1</span> Arsenale di Strumenti a Disposizione</a></li>
+  <li><a href="#kallisto-fusions" id="toc-kallisto-fusions" class="nav-link" data-scroll-target="#kallisto-fusions"><span class="header-section-number">8.2</span> KALLISTO fusions</a></li>
+  <li><a href="#star-fusion" id="toc-star-fusion" class="nav-link" data-scroll-target="#star-fusion"><span class="header-section-number">8.3</span> STAR FUSION</a>
+  <ul class="collapse">
+  <li><a href="#rnafusion" id="toc-rnafusion" class="nav-link" data-scroll-target="#rnafusion"><span class="header-section-number">8.3.1</span> RNAFUSION</a></li>
+  </ul></li>
+  </ul></li>
   <li><a href="#caratteristiche-principali" id="toc-caratteristiche-principali" class="nav-link" data-scroll-target="#caratteristiche-principali"><span class="header-section-number">9</span> Caratteristiche principali</a></li>
   <li><a href="#installazione" id="toc-installazione" class="nav-link" data-scroll-target="#installazione"><span class="header-section-number">10</span> Installazione</a>
   <ul class="collapse">
   <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations"><span class="header-section-number">10.1</span> Citations</a></li>
-  <li><a href="#kallisto-fusions" id="toc-kallisto-fusions" class="nav-link" data-scroll-target="#kallisto-fusions"><span class="header-section-number">10.2</span> KALLISTO fusions</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -239,21 +252,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduzione" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Introduzione</h1>
+<p>Nonostante la bassa incidenza complessiva della rilevazione di geni di fusione nel cancro, numerosi approcci terapeutici hanno dimostrato un beneficio clinico in relazione al loro targeting specifico e alla modulazione della risposta immunitaria mediante terapie di precisione.</p>
+<p>La presenza di geni di fusione mostra una correlazione significativa con l’inizio, la rilevazione e la progressione dei tumori. L’evidenza della rilevazione di tali segnali supporta l’ipotesi che essi rappresentino mutazioni “clonali”, ossia presenti in tutte le cellule neoplastiche della popolazione tumorale (review)[<a href="https://doi.org/10.1080/14796694.2025.2477974" class="uri">https://doi.org/10.1080/14796694.2025.2477974</a>].</p>
+<p><img src="images/clipboard-280217171.png" class="img-fluid"></p>
+<section id="arsenale-di-strumenti-a-disposizione" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="arsenale-di-strumenti-a-disposizione"><span class="header-section-number">8.1</span> Arsenale di Strumenti a Disposizione</h2>
+<p>Esistono numerosi strumenti bioinformatici dedicati all’identificazione dei geni di fusione. <strong>Chimerascan</strong> rappresenta uno dei primi software sviluppati, caratterizzato da un’elevata sensibilità. Successivamente sono stati introdotti programmi come <strong>Defuse</strong>, <strong>EricScript</strong> e <strong>FusionCatcher</strong>, che ne hanno costituito un’evoluzione, migliorandone diversi aspetti in termini di accuratezza e prestazioni. In questo contesto verranno presentati alcuni strumenti singoli, di utilizzo relativamente semplice, insieme a un framework completo basato su <strong>Nextflow</strong>, che consente di integrarli e utilizzarli in maniera coordinata.</p>
+</section>
+<section id="kallisto-fusions" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="kallisto-fusions"><span class="header-section-number">8.2</span> KALLISTO fusions</h2>
+<p>Kallisto può individuare le letture che attraversano potenziali punti di rottura di fusione (crossing-reads e split reads). La modalità quant aggiunge un’opzione –fusion che identifica le coppie di letture coinvolte in fusioni e scrive l’output nel file fusion.txt. Questo file viene poi elaborato da pizzly per le analisi successive. (manuale)[https://pachterlab.github.io/kallisto/manual]</p>
+</section>
+<section id="star-fusion" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="star-fusion"><span class="header-section-number">8.3</span> STAR FUSION</h2>
+<p>Tutorial che usa la potenza di STAR-FUSION <a href="https://bioinfo-dirty-jobs.github.io/master_course//lectures/04.starfusion/#do-we-really-have-to-run-each-fusion-analysis-step-separately-as-in-the-tutorial-above">tutorial</a></p>
+<p>##. SPLIT FUSION</p>
+<p>Le sfide nella diagnosi delle fusioni geniche comprendono: la possibilità di molteplici partner di fusione, talvolta sconosciuti; la bassa espressione genica (ad esempio <strong>ALK</strong>); l’espressione proteica non specifica per fusione (ad esempio <strong>ROS1</strong>); il possibile coinvolgimento di siti di splicing criptici; la scarsa diversità di sequenza nei punti di rottura genomici e le conseguenti difficoltà di mappatura; la scarsa qualità o quantità del campione e la bassa cellularità tumorale nei reperti clinici. La tecnologia <strong>AMP (Anchored Multiplex PCR)</strong> è clinicamente validata e affronta tutte queste problematiche, accelerando le scoperte di fusioni geniche e supportando diagnosi cliniche robuste (Zheng Z, et al.&nbsp;<em>Anchored multiplex PCR for targeted next-generation sequencing</em>. Nat Med. 2014).</p>
+<p>Accanto a una tecnologia di laboratorio solida, è altrettanto importante un metodo computazionale ad alte prestazioni per il rilevamento delle fusioni geniche. <strong>SplitFusion</strong> è rapido grazie all’uso degli allineamenti chimerici <em>split-read</em> di <strong>BWA-MEM</strong> (Li H. 2013). SplitFusion è indipendente dai trascritti codificanti noti, è sensibile, specifico, computazionalmente efficiente e presenta caratteristiche particolarmente rilevanti per la refertazione clinica, come la capacità di inferire la <em>frame-ness</em> dei trascritti di fusione e gli allineamenti ai confini degli esoni; di calcolare il numero di siti unici di legame DNA/RNA; e la modalità <strong>SplitFusion-Target</strong>, che consente un miglioramento continuo basato sull’evidenza nella refertazione clinica</p>
+<p>SplitFusion può essere utilizzato sia con dati <strong>RNA-seq</strong> che con dati generati da <strong>Anchored Multiplex PCR (AMP)</strong>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">https://github.com/Zheng-NGS-Lab/SplitFusion</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="images/clipboard-1795091795.png" class="img-fluid"></p>
+<p>###Come funziona SplitFusion?</p>
+<p>L’analisi si articola nei seguenti passaggi computazionali:</p>
+<p>Allineamento al riferimento e deduplicazione</p>
+<p>Trasformazione CIGAR</p>
+<p>Individuazione dei breakpoint candidati</p>
+<p>Filtraggio iniziale dei breakpoint</p>
+<p>Annotazione dei geni nei breakpoint, determinazione della frame-ness, confini esonici, ulteriori filtraggi e reportistica mirata</p>
+<p>Refertazione e visualizzazione dei risultati</p>
+<section id="rnafusion" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="rnafusion"><span class="header-section-number">8.3.1</span> RNAFUSION</h3>
 <p><strong>RNAfusion</strong> è una <a href="https://nf-co.re/">pipeline nf-core</a> per l’analisi di fusioni di RNA-seq.<br>
 Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, costruito con <a href="https://www.nextflow.io/">Nextflow</a> e containerizzato tramite Docker/Singularity.</p>
 <hr>
 </section>
+</section>
+</section>
 <section id="caratteristiche-principali" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Caratteristiche principali</h1>
 <ul>
-<li>Multipiattaforma e portabile<br>
-</li>
-<li>Gestione container con Docker/Singularity<br>
-</li>
-<li>Integrazione con ambienti HPC e cloud<br>
-</li>
-<li>Report interattivi in HTML<br>
-</li>
+<li>Multipiattaforma e portabile</li>
+<li>Gestione container con Docker/Singularity</li>
+<li>Integrazione con ambienti HPC e cloud</li>
+<li>Report interattivi in HTML</li>
 <li>Test e validazione automatizzati con <code>nf-core lint</code></li>
 </ul>
 <hr>
@@ -261,20 +303,20 @@ Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, cos
 <section id="installazione" class="level1" data-number="10">
 <h1 data-number="10"><span class="header-section-number">10</span> Installazione</h1>
 <h1>
-<picture> <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-rnafusion_logo_dark.png"> <img alt="nf-core/rnafusion" src="docs/images/nf-core-rnafusion_logo_light.png"> </picture>
+<picture> <source media="(prefers-color-scheme: dark)" srcset="docs/images/nf-core-rnafusion_logo_dark.png"> <img src="docs/images/nf-core-rnafusion_logo_light.png" class="img-fluid" alt="nf-core/rnafusion"> </picture>
 </h1>
 <p>Per installare ed eseguire la pipeline:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="at">-profile</span> test,docker</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="at">-profile</span> test,docker</span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><img src="images/clipboard-1456521626.png" class="img-fluid"></p>
 <p>come usarlo è riportato nel seguente link:</p>
 <p><a href="https://nf-co.re/rnafusion/3.0.2/docs/usage/" class="uri">https://nf-co.re/rnafusion/3.0.2/docs/usage/</a></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion  <span class="dt">\ </span> <span class="at">--build_references</span> <span class="dt">\ </span> <span class="at">--cosmic_username</span> <span class="op">&lt;</span>EMAIL<span class="op">&gt;</span> --cosmic_passwd <span class="op">&lt;</span>PASSWORD<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--fusionreport</span> <span class="dt">\ </span> <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span><span class="st">'''</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion  <span class="dt">\ </span> <span class="at">--build_references</span> <span class="dt">\ </span> <span class="at">--cosmic_username</span> <span class="op">&lt;</span>EMAIL<span class="op">&gt;</span> --cosmic_passwd <span class="op">&lt;</span>PASSWORD<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--fusionreport</span> <span class="dt">\ </span> <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span><span class="st">'''</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>poi fai questo</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="dt">\</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--all</span> <span class="dt">\</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> <span class="op">&lt;</span>SAMPLE_SHEET.CSV<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--all</span> <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> <span class="op">&lt;</span>SAMPLE_SHEET.CSV<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span></span></code><button title="Copia negli appunti" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="citations" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="citations"><span class="header-section-number">10.1</span> Citations</h2>
 <p>If you use nf-core/rnafusion for your analysis, please cite it using the following doi: <a href="https://doi.org/10.5281/zenodo.3946477">10.5281/zenodo.3946477</a></p>
@@ -285,10 +327,6 @@ Fornisce un workflow standardizzato, riproducibile e facilmente estendibile, cos
 <p>Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso &amp; Sven Nahnsen.</p>
 <p><em>Nat Biotechnol.</em> 2020 Feb 13. doi: <a href="https://dx.doi.org/10.1038/s41587-020-0439-x">10.1038/s41587-020-0439-x</a>.</p>
 </blockquote>
-</section>
-<section id="kallisto-fusions" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="kallisto-fusions"><span class="header-section-number">10.2</span> KALLISTO fusions</h2>
-<p>kallisto can now find reads which span potential fusion breakpoints. The quant mode adds a –fusion flag which identifies read pairs involved in fusions and writes output to fusion.txt, this file is then processed by pizzly for downstream analysis.</p>
 
 
 </section>
@@ -719,8 +757,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./08_Fusion2.html" class="pagination-link" aria-label="SplitFusion — Introduzione e Guida Rapida">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">SplitFusion — Introduzione e Guida Rapida</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./08_Fusion2.html" class="pagination-link" aria-label="Genefuse">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Genefuse</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

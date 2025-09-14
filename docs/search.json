@@ -194,7 +194,37 @@
     "href": "07_fusion.html",
     "title": "7  RNAfusion",
     "section": "",
-    "text": "8 Introduzione\nRNAfusion è una pipeline nf-core per l’analisi di fusioni di RNA-seq.\nFornisce un workflow standardizzato, riproducibile e facilmente estendibile, costruito con Nextflow e containerizzato tramite Docker/Singularity.",
+    "text": "8 Introduzione\nNonostante la bassa incidenza complessiva della rilevazione di geni di fusione nel cancro, numerosi approcci terapeutici hanno dimostrato un beneficio clinico in relazione al loro targeting specifico e alla modulazione della risposta immunitaria mediante terapie di precisione.\nLa presenza di geni di fusione mostra una correlazione significativa con l’inizio, la rilevazione e la progressione dei tumori. L’evidenza della rilevazione di tali segnali supporta l’ipotesi che essi rappresentino mutazioni “clonali”, ossia presenti in tutte le cellule neoplastiche della popolazione tumorale (review)[https://doi.org/10.1080/14796694.2025.2477974].",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html#arsenale-di-strumenti-a-disposizione",
+    "href": "07_fusion.html#arsenale-di-strumenti-a-disposizione",
+    "title": "7  RNAfusion",
+    "section": "8.1 Arsenale di Strumenti a Disposizione",
+    "text": "8.1 Arsenale di Strumenti a Disposizione\nEsistono numerosi strumenti bioinformatici dedicati all’identificazione dei geni di fusione. Chimerascan rappresenta uno dei primi software sviluppati, caratterizzato da un’elevata sensibilità. Successivamente sono stati introdotti programmi come Defuse, EricScript e FusionCatcher, che ne hanno costituito un’evoluzione, migliorandone diversi aspetti in termini di accuratezza e prestazioni. In questo contesto verranno presentati alcuni strumenti singoli, di utilizzo relativamente semplice, insieme a un framework completo basato su Nextflow, che consente di integrarli e utilizzarli in maniera coordinata.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html#kallisto-fusions",
+    "href": "07_fusion.html#kallisto-fusions",
+    "title": "7  RNAfusion",
+    "section": "8.2 KALLISTO fusions",
+    "text": "8.2 KALLISTO fusions\nKallisto può individuare le letture che attraversano potenziali punti di rottura di fusione (crossing-reads e split reads). La modalità quant aggiunge un’opzione –fusion che identifica le coppie di letture coinvolte in fusioni e scrive l’output nel file fusion.txt. Questo file viene poi elaborato da pizzly per le analisi successive. (manuale)[https://pachterlab.github.io/kallisto/manual]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+    ]
+  },
+  {
+    "objectID": "07_fusion.html#star-fusion",
+    "href": "07_fusion.html#star-fusion",
+    "title": "7  RNAfusion",
+    "section": "8.3 STAR FUSION",
+    "text": "8.3 STAR FUSION\nTutorial che usa la potenza di STAR-FUSION tutorial\n##. SPLIT FUSION\nLe sfide nella diagnosi delle fusioni geniche comprendono: la possibilità di molteplici partner di fusione, talvolta sconosciuti; la bassa espressione genica (ad esempio ALK); l’espressione proteica non specifica per fusione (ad esempio ROS1); il possibile coinvolgimento di siti di splicing criptici; la scarsa diversità di sequenza nei punti di rottura genomici e le conseguenti difficoltà di mappatura; la scarsa qualità o quantità del campione e la bassa cellularità tumorale nei reperti clinici. La tecnologia AMP (Anchored Multiplex PCR) è clinicamente validata e affronta tutte queste problematiche, accelerando le scoperte di fusioni geniche e supportando diagnosi cliniche robuste (Zheng Z, et al. Anchored multiplex PCR for targeted next-generation sequencing. Nat Med. 2014).\nAccanto a una tecnologia di laboratorio solida, è altrettanto importante un metodo computazionale ad alte prestazioni per il rilevamento delle fusioni geniche. SplitFusion è rapido grazie all’uso degli allineamenti chimerici split-read di BWA-MEM (Li H. 2013). SplitFusion è indipendente dai trascritti codificanti noti, è sensibile, specifico, computazionalmente efficiente e presenta caratteristiche particolarmente rilevanti per la refertazione clinica, come la capacità di inferire la frame-ness dei trascritti di fusione e gli allineamenti ai confini degli esoni; di calcolare il numero di siti unici di legame DNA/RNA; e la modalità SplitFusion-Target, che consente un miglioramento continuo basato sull’evidenza nella refertazione clinica\nSplitFusion può essere utilizzato sia con dati RNA-seq che con dati generati da Anchored Multiplex PCR (AMP).\n\n https://github.com/Zheng-NGS-Lab/SplitFusion\n\n###Come funziona SplitFusion?\nL’analisi si articola nei seguenti passaggi computazionali:\nAllineamento al riferimento e deduplicazione\nTrasformazione CIGAR\nIndividuazione dei breakpoint candidati\nFiltraggio iniziale dei breakpoint\nAnnotazione dei geni nei breakpoint, determinazione della frame-ness, confini esonici, ulteriori filtraggi e reportistica mirata\nRefertazione e visualizzazione dei risultati\n\n8.3.1 RNAFUSION\nRNAfusion è una pipeline nf-core per l’analisi di fusioni di RNA-seq.\nFornisce un workflow standardizzato, riproducibile e facilmente estendibile, costruito con Nextflow e containerizzato tramite Docker/Singularity.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
     ]
@@ -210,23 +240,23 @@
     ]
   },
   {
-    "objectID": "07_fusion.html#kallisto-fusions",
-    "href": "07_fusion.html#kallisto-fusions",
-    "title": "7  RNAfusion",
-    "section": "10.2 KALLISTO fusions",
-    "text": "10.2 KALLISTO fusions\nkallisto can now find reads which span potential fusion breakpoints. The quant mode adds a –fusion flag which identifies read pairs involved in fusions and writes output to fusion.txt, this file is then processed by pizzly for downstream analysis.",
+    "objectID": "08_Fusion2.html",
+    "href": "08_Fusion2.html",
+    "title": "8  Genefuse",
+    "section": "",
+    "text": "8.1 GeneFuse\nUno strumento per rilevare e visualizzare fusioni geniche target analizzando direttamente i file FASTQ. Questo tool accetta come input file FASTQ e un genoma di riferimento, e produce come output i risultati delle fusioni rilevate nei formati TEXT, JSON e HTML.\nDai un’occhiata rapida al report informativo\nReport HTML di esempio: http://opengene.org/GeneFuse/report.html\nReport JSON di esempio: http://opengene.org/GeneFuse/report.json\nDataset per test: http://opengene.org/dataset.html – Scarica i file FASTQ paired-end per testare GeneFuse (piattaforma Illumina).\n# Get genefuse program ### install with Bioconda",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>RNAfusion</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Genefuse</span>"
     ]
   },
   {
-    "objectID": "08_Fusion2.html",
-    "href": "08_Fusion2.html",
-    "title": "8  SplitFusion — Introduzione e Guida Rapida",
+    "objectID": "08_Fusion2.html#genefuse",
+    "href": "08_Fusion2.html#genefuse",
+    "title": "8  Genefuse",
     "section": "",
-    "text": "Consiglio\n\n\n\nQuesta pagina reimpagina in Quarto il contenuto fornito, aggiungendo TOC, evidenziazione codice e callout. Tutti i percorsi/URL sono lasciati come nell’originale.\n\n\n\n9 Introduction\nGene fusion is a hallmark of cancer. Many gene fusions are effective therapeutic targets such as BCR-ABL in chronic myeloid leukemia and EML4-ALK in lung cancer. Accurate detection of gene fusion plays a pivotal role in precision medicine by matching the right drugs to the right patients.\nChallenges in the diagnosis of gene fusions include that there could be many and sometimes unknown fusion partners, low gene expression (e.g. ALK), non fusion-specific protein expression (e.g. ROS1), potential involvments of cryptic splice sites, low sequence diversity at genomic breakpoints and associated mapping difficulty, and poor sample (poor quality, limited amount and low tumor cellularity) in clinical specimens. The anchored multiplex PCR (AMP) is a clinically proven technology that addresses all these issues and has accelerated gene fusion discoveries and supported robust clinical diagnosis (zheng2014?).\nEqually important to a robust wet lab technology is a high-performing computational method for calling gene fusions. SplitFusion is fast by leveraging the chimeric split-read alignments of BWA-MEM (li2013?). SplitFusion is agnostic to known coding transcripts. SplitFusion is sensitive, specific, computationally efficient, and features highly desirable abilities in clinical reporting, including the capabilities to infer fusion transcript frame-ness and exon-boundary alignments; to calculate number of unique DNA/RNA fragment ligation sites; and the SplitFusion-Target mode allows for continuous evidence-based improvement in clinical reporting.\nSplitFusion can be used for RNA-seq data and the Anchored Multiplex PCR (AMP) data.\n\n\n10 How does SplitFusion work?\nThe analysis consists of the following computational steps:\n\nReference alignment and deduplication.\n\nCIGAR transformation.\n\nCandidate breakpoint calling.\n\nInitial breakpoint filtering.\n\nBreakpoint gene annotation, frame-ness, exon boundary, further filtering and target reporting.\n\nResult reporting and visualization.\n\n\n\n11 Dependencies\nWhen running SplitFusion, you can specify paths to the tools and genome files you already have. If not, here are the human genome data and tools for installation.\n\nhuman genome: https://data.broadinstitute.org/snowman/hg19/\nE.g. save large database files under /home/user1/database/:\ncd /home/user1/database\nwget https://data.broadinstitute.org/snowman/hg19/Homo_sapiens_assembly19.fasta\nsamtools: http://samtools.sourceforge.net\nE.g. install under /home/user1/tools/:\ncd /home/user1/tools\nwget -O samtools.tar.bz2 https://sourceforge.net/projects/samtools/files/latest/download\ntar -xvf samtools.tar.bz2\ncd samtools-1.10   # Nota: versione samtools-x.xx\nmkdir /home/user1/tools/samtools\n./configure --prefix=/home/user1/tools/samtools\nmake\nmake install\ncd ..\nbwa: https://sourceforge.net/projects/bio-bwa/files\ngit clone https://github.com/lh3/bwa.git\ncd bwa\nmake\ncd ..\nbedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html\nwget https://github.com/arq5x/bedtools2/releases/download/v2.29.1/bedtools-2.29.1.tar.gz\ntar -zxvf bedtools-2.29.1.tar.gz\ncd bedtools2\nmake\nperl: https://www.perl.org/get.html\nAnnotation tools\nSplitFusion by default uses snpEff but it also supports ANNOVAR.\n\nsnpEff (free). When you run it for the first time, it will automatically download the genome database (either hg19 or hg38) from the internet. To run with snpEff, specify your snpEff directory via: --annovar /home/user1/tools/snpEff\n\nsnpEff: https://pcingola.github.io/SnpEff/download/\n\nANNOVAR (free registration). To run with ANNOVAR use --AnnotationMethod annovar. Keep the ANNOVAR directory structure, e.g. if installed under /home/user1/tools:\n/home/user1/tools/annovar/annotate_variation.pl\n/home/user1/tools/annovar/table_annovar.pl\n/home/user1/tools/annovar/humandb/hg19_refGeneMrna.fa\n/home/user1/tools/annovar/humandb/hg19_refGene.txt\n\nANNOVAR: http://download.openbioinformatics.org/annovar_download_form.php\n\n\nR: https://www.r-project.org/\nInstall required R packages within R:\ninstall.packages(c(\"Rcpp\", \"data.table\", \"plyr\"))\nPython: https://www.python.org/downloads/\nInstall a Python module with pip:\npip install future\n\n\n\n12 Installation\n```bash cd /home/user1/tools/ git clone https://github.com/Zheng-NGS-Lab/SplitFusion.git",
+    "text": "conda install -c bioconda genefuse\n\n8.1.1 download binary\nThis binary is only for Linux systems, http://opengene.org/GeneFuse/genefuse\n# this binary was compiled on CentOS, and tested on CentOS/Ubuntu\nwget http://opengene.org/GeneFuse/genefuse\nchmod a+x ./genefuse\nsi puo usare sia hg19 e hg38 ## Example\n/genefuse -r ../hg19.fa -f genes/druggable.hg19.csv -1 ../rnaseq_1.fastq.gz -2 ../rnaseq_2.fastq.gz -h report_from_fastw2.html &gt; result2a\n\n\n./genefuse -r ../hg19.fa -f genes/cancer.hg19.csv -1 ../rnaseq_1.fastq.gz -2 ../rnaseq_2.fastq.gz -h report_from_fastw2b.html &gt; result2b\n\n\n\n8.1.2 Risultati",
     "crumbs": [
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>SplitFusion — Introduzione e Guida Rapida</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Genefuse</span>"
     ]
   },
   {
@@ -317,6 +347,26 @@
     "text": "14.2 Snippet: evidenze e rischi\nPer ciascun biomarcatore ESCAT I:\n- Riassumi outcome (PFS/OS) del trial chiave (una riga).\n- Elenca principali tossicità di classe (una riga), senza consigli clinici.",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "11_LLM_ing.html",
+    "href": "11_LLM_ing.html",
+    "title": "10  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "",
+    "text": "11 🧬 Report Clinico ESCAT\nAnalisi di mutazioni da referto NGS secondo la scala ESCAT, usando modelli Ollama (Llama3, DeepSeek, Meditron).\nPossiamo creare un modello:\nCreare ModelFile:",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
+    ]
+  },
+  {
+    "objectID": "11_LLM_ing.html#esempio-codice",
+    "href": "11_LLM_ing.html#esempio-codice",
+    "title": "10  Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I",
+    "section": "11.1 Esempio codice",
+    "text": "11.1 Esempio codice\n#| eval: false\nollama run biomt\n\n&gt; &gt; &gt; Agisci come revisore NGS per MTB. ... Input: ... #Fusion: RET_ENST00000355710.3:intron:11\\|-chr10:43612027\\_\\_\\_CCDC6_ENST0000026 ... 3102.6:exon:1\\|+chr10:61665883 ... ... Produci: tabella e checklist come da istruzioni. Includi ESCAT, livello, ter ... apia standard se I, e flag “Contesto-dipendente”. ... Here is the output:\n\n**Variant Report** \\| Variant \\| ESCAT Class \\| Level \\| Biomarker Type \\| Status \\| Therapy Standard \\| Contexto-dipendente \\| \\| --- \\| --- \\| --- \\| --- \\| --- \\| --- \\| --- \\| \\| RET_ENST00000355710.3:intron:11\\|-chr10:43612027\\_**CCDC6_ENST00000263102.6RET_ENST00000355710.3:intron:11\\|-chr10:43612027**\\_CCDC6_ENST00000263102.6:exon:1\\|+chr10:61665883 \\| III \\| NA \\| somatic \\| non standard \\| \\*\\* \\|\n\n**Checklist** \\* Tumor type: unknown \\* Setting: unknown \\* HRD: unknown \\* MSI: unknown \\* TMB: unknown \\* Guidelines: N/A\n\nNote: The variant is a fusion, which is classified as ESCAT III. As it's not a coding region change, biomarker type is NA (not applicable). The status is somatic, and the therapy standard is non-standard. The **Contexto-dipendente** flag indicates that the evidence depends on the presence of HRD/MSI/TMB/fusions, etc.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span>"
     ]
   }
 ]

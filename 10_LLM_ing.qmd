@@ -12,22 +12,28 @@ execute:
   eval: true
 ---
 
+# Installazione versione Locale
+
+![](images/clipboard-2475624507.png)
+
+![](images/clipboard-2093255089.png)
+
 # Purpose
 
 A practical playbook for using ChatGPT to support clinical information research and evidence synthesis, with ready-to-use prompt recipes and domain-specific prompts for prokaryotic gene prediction.
 
 # Ground Rules for Reliable, Auditable Outputs
 
-- **Role and audience**: Define who the assistant is and whom the output serves.
-- **Task constraints**: Specify scope, time window, patient population, outcomes.
-- **Citations**: Request numbered citations with links and dates; favor guidelines, systematic reviews, and RCTs.
-- **Structure**: Ask for tables, bullet lists, and short rationale (no chain-of-thought).
-- **Safety**: No medical advice; evidence summaries only.
-- **Recency**: Prioritize sources from the last 3–5 years while including seminal older works when needed.
+-   **Role and audience**: Define who the assistant is and whom the output serves.
+-   **Task constraints**: Specify scope, time window, patient population, outcomes.
+-   **Citations**: Request numbered citations with links and dates; favor guidelines, systematic reviews, and RCTs.
+-   **Structure**: Ask for tables, bullet lists, and short rationale (no chain-of-thought).
+-   **Safety**: No medical advice; evidence summaries only.
+-   **Recency**: Prioritize sources from the last 3–5 years while including seminal older works when needed.
 
 # Reusable Prompt Template
 
-```
+```         
 You are a clinical information specialist. Topic: [condition/intervention].
 Audience: [who]. Setting: [where].
 Do:
@@ -42,53 +48,64 @@ Do not give medical advice; provide evidence summaries only.
 
 # Handy Micro-Prompts
 
-- **Quick PICO builder**  
-```
+-   **Quick PICO builder**\
+
+```         
 Build a PICO for [question]. State assumptions explicitly. Output as a 4-row table.
 ```
-- **Search strategy refinement**  
-```
+
+-   **Search strategy refinement**\
+
+```         
 Convert this clinical question into a PubMed search: list MeSH + free text, Boolean blocks,
 filters (dates, humans, RCTs). Then produce an Embase version with Emtree.
 ```
-- **Evidence mapping**  
-```
+
+-   **Evidence mapping**\
+
+```         
 Create an evidence map: columns = Study type | Year | Population | Comparator | Primary outcome | Direction of effect | Risk of bias (brief).
 ```
-- **Bias and limitations**  
-```
+
+-   **Bias and limitations**\
+
+```         
 In 5 bullets, list key biases/limitations in the current evidence base for [topic].
 ```
 
 # Output Skeletons
 
 ## PICO (table)
-| Element | Details |
-|---|---|
-| Population |  |
-| Intervention |  |
-| Comparator |  |
-| Outcomes |  |
+
+| Element      | Details |
+|--------------|---------|
+| Population   |         |
+| Intervention |         |
+| Comparator   |         |
+| Outcomes     |         |
 
 ## Top Sources (example pattern)
-1. [Year] [Type]: key finding. Link.  
-2. [Year] [Type]: key finding. Link.  
+
+1.  \[Year\] \[Type\]: key finding. Link.\
+2.  \[Year\] \[Type\]: key finding. Link.
 
 ## Synthesis
-- Consistent findings  
-- Divergences  
-- Effect sizes (if available)  
-- Safety signals  
-- Practice implications  
+
+-   Consistent findings\
+-   Divergences\
+-   Effect sizes (if available)\
+-   Safety signals\
+-   Practice implications
 
 ## Applicability and Risks
-- Setting fit, patient selection, resource constraints, equity considerations.
+
+-   Setting fit, patient selection, resource constraints, equity considerations.
 
 # Domain-Specific Prompts: Prokaryotic Gene Prediction
 
 ## Level 3 Prompt (Rule-Based vs Machine Learning)
 
-```
+```         
 Role: Bioinformatics methodologist. Audience: graduate researchers.
 Task: In the context of prokaryotic gene prediction, compare rule-based methods vs machine learning–based methods and discuss effectiveness in identifying genes in bacterial genomes.
 Scope: Bacteria (complete and draft genomes), include small ORFs and operon context.
@@ -104,7 +121,7 @@ Citations: numbered, links; include recent benchmarks and seminal tools. Avoid c
 
 ## Level 4 Prompt (Challenges, Advances, CNN/RNN/Transformers)
 
-```
+```         
 Role: Senior bioinformatics researcher advising on bacterial gene prediction pipeline design.
 Task: Explain current challenges and advancements in gene prediction for bacterial genomes; show how ML models (CNNs, RNNs, Transformers, gradient boosting) address them.
 Must cover:
@@ -123,8 +140,8 @@ Citations: numbered with links (recent reviews/benchmarks + canonical tools). No
 
 # Quality Control and Ethics Checklist
 
-- Provenance: citations are present, current, and reputable.
-- Transparency: limits/biases are explicitly stated.
-- Reproducibility: datasets, metrics, and versions specified.
-- Safety: no clinical advice; evidence only.
-- Actionability: clear next steps (databases to search, tools to test, metrics to report).
+-   Provenance: citations are present, current, and reputable.
+-   Transparency: limits/biases are explicitly stated.
+-   Reproducibility: datasets, metrics, and versions specified.
+-   Safety: no clinical advice; evidence only.
+-   Actionability: clear next steps (databases to search, tools to test, metrics to report).

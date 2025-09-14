@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="it" xml:lang="it"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Prof.&nbsp;Ettore Domenico CAPOLUONGO / Dr.&nbsp;Maurizio Polano">
 
-<title>Molecular Tumor Board — Simulation Handbook</title>
+<title>CTAT Fusion Toolkit — Tutorial (STAR-Fusion, FusionInspector, Trinity)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,195 +20,73 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./01_avvio.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-854d42f42d0f6b455b86ad16a464e311.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
-  "copy-button": false,
-  "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
-  "limit": 50,
-  "keyboard-shortcut": [
-    "f",
-    "/",
-    "s"
-  ],
-  "show-item-context": false,
-  "language": {
-    "search-no-results-text": "Nessun risultato",
-    "search-matching-documents-text": "documenti trovati",
-    "search-copy-link-title": "Copiare il link nella ricerca",
-    "search-hide-matches-text": "Nascondere i risultati aggiuntivi",
-    "search-more-match-text": "ci sono altri risultati in questo documento",
-    "search-more-matches-text": "ulteriori risultati in questo documento",
-    "search-clear-button-title": "Pulire",
-    "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancellare",
-    "search-submit-button-title": "Inviare",
-    "search-label": "Ricerca"
-  }
-}</script>
+<script src="07_fusionb_files/libs/clipboard/clipboard.min.js"></script>
+<script src="07_fusionb_files/libs/quarto-html/quarto.js"></script>
+<script src="07_fusionb_files/libs/quarto-html/popper.min.js"></script>
+<script src="07_fusionb_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="07_fusionb_files/libs/quarto-html/anchor.min.js"></script>
+<link href="07_fusionb_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="07_fusionb_files/libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="07_fusionb_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="07_fusionb_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="07_fusionb_files/libs/bootstrap/bootstrap-973236bd072d72a04ee9cd82dcc9cb29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
-<link rel="stylesheet" href="assets/styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="fullcontent">
 
-<div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Attiva/disattiva la barra laterale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Ricerca" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
-<!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Molecular Tumor Board — Simulation Handbook</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Ricerca"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Benvenuti</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./01_avvio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Molecular Tumor Board — Riassunto</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./02_framework.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Framework di decisione (AMP/ASCO/CAP &amp; ESCAT)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03_glioma.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Glioma (GBM, IDH-wildtype) — Caso MTB</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./04_ovaio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ovaio (HGSOC) — Caso MTB</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05_breast.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Mammella — Casi MTB (HR+/HER2− e TNBC)</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./07_fusion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">RNAfusion</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./08_Fusion2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Genefuse</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./09_LLM_clinical_local.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./11_LLM_ing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Corso in 4 Moduli — ChatGPT per individuare mutazioni ESCAT livello I</span></span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Indice</h2>
-   
-  <ul>
-  <li><a href="#molecular-tumor-board-simulation-handbook" id="toc-molecular-tumor-board-simulation-handbook" class="nav-link active" data-scroll-target="#molecular-tumor-board-simulation-handbook">Molecular Tumor Board — Simulation Handbook</a>
-  <ul class="collapse">
-  <li><a href="#come-usare-questo-corso" id="toc-come-usare-questo-corso" class="nav-link" data-scroll-target="#come-usare-questo-corso">Come usare questo corso</a></li>
-  <li><a href="#struttura-del-libro" id="toc-struttura-del-libro" class="nav-link" data-scroll-target="#struttura-del-libro">Struttura del libro</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
-<!-- main -->
-<main class="content column-body" id="quarto-document-content">
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Molecular Tumor Board — Simulation Handbook</h1>
+<h1 class="title">CTAT Fusion Toolkit — Tutorial (STAR-Fusion, FusionInspector, Trinity)</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-body">
+<div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Autore/Autrice</div>
-    <div class="quarto-title-meta-contents">
-             <p>Prof.&nbsp;Ettore Domenico CAPOLUONGO / Dr.&nbsp;Maurizio Polano </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Data di Pubblicazione</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">30 agosto 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -219,68 +96,70 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="molecular-tumor-board-simulation-handbook" class="level1">
-<h1>Molecular Tumor Board — Simulation Handbook</h1>
-<p>Benvenuti nel <strong>Molecular Tumor Board — Simulation Handbook</strong>, un corso/libro interattivo pensato per esercitarsi con workflow, interpretazione e comunicazione dei risultati in ambito MTB.</p>
-<p>Il focus è su tre aree:</p>
+<section id="panoramica" class="level2">
+<h2 class="anchored" data-anchor-id="panoramica">Panoramica</h2>
+<p>Il <strong>Trinity Cancer Transcriptome Analysis Toolkit (CTAT)</strong> offre un flusso completo per l’identificazione e la caratterizzazione di <strong>fusion transcript</strong> da RNA-seq, sfruttando:</p>
 <ul>
-<li><strong>Glioma (GBM, IDH-wildtype)</strong> — re-resezione e trial EGFR/RTK.<br>
-</li>
-<li><strong>Ovaio (HGSOC)</strong> — HRR/BRCA, HRD e uso dei PARP in prima/seconda linea.<br>
-</li>
-<li><strong>Mammella</strong> — due esempi: HR+/HER2− con <em>PIK3CA</em> e TNBC con <em>BRCA1</em>.</li>
+<li><strong>STAR-Fusion</strong> (predizione di fusioni),</li>
+<li><strong>FusionInspector</strong> (validazione <em>in silico</em> e visualizzazioni),</li>
+<li><strong>Trinity</strong> (ricostruzione <em>de novo</em> di trascritti di fusione),</li>
+<li>annotazioni e stima dell’impatto sulle <strong>regioni codificanti</strong>.</li>
 </ul>
-<blockquote class="blockquote">
-<p>I dataset sono <strong>fittizi a scopo didattico</strong>. Gli script mostrano come leggere tabelle di varianti, visualizzarle con <code>gt</code>, e strutturare il ragionamento secondo <strong>AMP/ASCO/CAP</strong> ed <strong>ESCAT</strong>.</p>
-</blockquote>
-<div class="callout callout-style-default callout-note callout-titled">
+<section id="flusso-in-breve" class="level3">
+<h3 class="anchored" data-anchor-id="flusso-in-breve">Flusso in breve</h3>
+<ol type="1">
+<li><strong>STAR-Fusion</strong> identifica fusioni candidate da allineamenti discordanti.<br>
+</li>
+<li><strong>FusionInspector</strong> valida <em>in silico</em> riallineando su contig di fusione e intero genoma; opzionalmente avvia <strong>Trinity</strong> per ricostruzioni <em>de novo</em>.<br>
+</li>
+<li>Annotazione e <strong>coding effect</strong> (in-frame / frameshift, domini, ecc.).</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Nota
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Target</strong>: specializzandi, biologi molecolari, bioinformatici e clinici interessati a MTB.<br>
-<strong>Prerequisiti minimi</strong>: conoscenze di base di NGS, varianti somatiche e RNA-seq.</p>
+<p><strong>Suggerimento</strong> — Per test locali veloci, usa i dati del <strong>minigenome</strong> forniti nel tutorial CTAT.</p>
 </div>
 </div>
-<section id="come-usare-questo-corso" class="level2">
-<h2 class="anchored" data-anchor-id="come-usare-questo-corso">Come usare questo corso</h2>
-<ul>
-<li>Naviga i capitoli dal <strong>menu laterale</strong> o dalla <strong>Table of Contents</strong>.<br>
-</li>
-<li>Ogni capitolo adotta una struttura coerente: <em>Obiettivi → Dati/Metodi → Analisi → Output/Report → Riferimenti</em>.<br>
-</li>
-<li>Box informativi segnalano <em>Suggerimenti pratici</em>, <em>Pitfall comuni</em> e <em>Checklist</em> operative.</li>
-</ul>
-</section>
-<section id="struttura-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="struttura-del-libro">Struttura del libro</h2>
-<p>I capitoli principali includono:</p>
-<ul>
-<li><p><strong>Avvio</strong>: panoramica del setup e flusso di lavoro base.<br>
-</p></li>
-<li><p><strong>Framework</strong>: principi, standard e raccomandazioni per MTB.<br>
-</p></li>
-<li><p><strong>Casi clinici</strong>: <em>Glioma</em>, <em>Ovaio</em>, <em>Breast</em>.<br>
-</p></li>
-<li><p><strong>Templates</strong>: modelli di report, checklist e tabelle riutilizzabili.<br>
-</p></li>
-<li><p><strong>Fusion</strong>: moduli dedicati all’analisi di fusioni geniche da RNA-seq.</p></li>
-<li><p>Use of <strong>LLM</strong> for clinical interpretation</p></li>
-</ul>
-<blockquote class="blockquote">
-<p>Nota: la struttura dei capitoli è stata resa omogenea per facilitare studio e consultazione.</p>
-</blockquote>
-
-
 </section>
 </section>
+<section id="dati-del-tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="dati-del-tutorial">Dati del tutorial</h2>
+<p><strong>Genome</strong><br>
+- <code>minigenome.fa</code> — genoma minimizzato (~750 geni)<br>
+- <code>minigenome.gtf</code> — annotazioni trascrittomiche</p>
+<p><strong>RNA-seq</strong><br>
+- <code>rnaseq_1.fastq.gz</code> — read 1 (left)<br>
+- <code>rnaseq_2.fastq.gz</code> — read 2 (right)</p>
+<p><strong>Meta</strong><br>
+- <code>CTAT_HumanFusionLib.mini.dat.gz</code> — mini libreria di annotazioni fusion</p>
+<p>Per ottenere i dati:</p>
+<p>```bash # Opzione: clona il repo del tutorial git clone <a href="https://github.com/STAR-Fusion/STAR-Fusion-Tutorial.git" class="uri">https://github.com/STAR-Fusion/STAR-Fusion-Tutorial.git</a> cd STAR-Fusion-Tutorial</p>
+</section>
+<section id="nexflow-fusion" class="level2">
+<h2 class="anchored" data-anchor-id="nexflow-fusion">NEXFLOW FUSION</h2>
+<p>Fusion pipeline[<a href="https://nf-co.re/rnafusion/3.0.2" class="uri">https://nf-co.re/rnafusion/3.0.2</a>] versione 3.0,2</p>
+<p>Una pipeline di analisi bioinformatica <em>best-practice</em> per il sequenziamento dell’RNA, composta da diversi strumenti progettati per rilevare e visualizzare i geni di fusione. I risultati provenienti da un massimo di cinque strumenti di rilevamento delle fusioni vengono generati e successivamente aggregati, in particolare in un documento PDF di visualizzazione, in un file di raccolta dati in formato VCF e in report HTML e TSV.</p>
+<p><img src="images/clipboard-1456521626.png" class="img-fluid"></p>
+<p>come usarlo è riportato nel seguente link:</p>
+<p><a href="https://nf-co.re/rnafusion/3.0.2/docs/usage/" class="uri">https://nf-co.re/rnafusion/3.0.2/docs/usage/</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion  <span class="dt">\ </span> <span class="at">--build_references</span> <span class="dt">\ </span> <span class="at">--cosmic_username</span> <span class="op">&lt;</span>EMAIL<span class="op">&gt;</span> --cosmic_passwd <span class="op">&lt;</span>PASSWORD<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--fusionreport</span> <span class="dt">\ </span> <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\ </span> <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span><span class="st">'''</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>poi fai questo</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run nf-core/rnafusion <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--all</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> <span class="op">&lt;</span>SAMPLE_SHEET.CSV<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--genomes_base</span> <span class="op">&lt;</span>PATH/TO/REFERENCES<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--outdir</span> <span class="op">&lt;</span>OUTPUT/PATH<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 
-</main> <!-- /main -->
+</main>
+<!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -324,12 +203,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // flash "checked"
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copiato!");
+    button.setAttribute("title", "Copied!");
     let tooltip;
     if (window.bootstrap) {
       button.setAttribute("data-bs-toggle", "tooltip");
       button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copiato!");
+      button.setAttribute("data-bs-title", "Copied!");
       tooltip = new bootstrap.Tooltip(button, 
         { trigger: "manual", 
           customClass: "code-copy-button-tooltip",
@@ -698,15 +577,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-body">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./01_avvio.html" class="pagination-link" aria-label="Molecular Tumor Board — Riassunto">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Molecular Tumor Board — Riassunto</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 
 
